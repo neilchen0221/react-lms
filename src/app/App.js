@@ -3,6 +3,7 @@ import { Route, HashRouter as Router, Switch, Redirect, Link } from "react-route
 import CourseList from "../course/CourseList";
 import Dashboard from "../dashboard/Dashboard";
 import NotFound from "../common/NotFound";
+import CourseDetails from "../course/CourseDetails";
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
           <Redirect exact path="/" to="/dashboard" />
           <Route exact path="/dashboard" component={Dashboard} />
           <Route exact path="/courses" component={CourseList} />
+          <Route exact path="/courses/:id" component={CourseDetails} />
           <Route path="*" component={NotFound} />
         </Switch>
       </div>
