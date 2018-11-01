@@ -1,5 +1,5 @@
 import React from "react";
-import PageLoader from "../common/PageLoader";
+import Loader from "../common/Loader";
 import * as CourseApi from "./CourseApi";
 
 class CourseList extends React.Component {
@@ -34,7 +34,7 @@ class CourseList extends React.Component {
     return (
       <div>
         <h1>Course List</h1>
-        {this.state.isLoading && <PageLoader />}
+        {this.state.isLoading && <Loader />}
         {!this.state.isLoading && this.state.courses.length && this.renderCourses()}
         {!this.state.isLoading && !this.state.courses.length && <h3>No Course...</h3>}
       </div>
