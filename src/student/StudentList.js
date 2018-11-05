@@ -5,6 +5,7 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 import { range } from "lodash";
 import Notification from "../common/Notification";
+import classnames from "classnames";
 
 class StudentList extends React.PureComponent {
   constructor() {
@@ -46,12 +47,12 @@ class StudentList extends React.PureComponent {
     return (
       <thead>
         <tr>
-          <th>Name</th>
-          <th style={{ with: 300 }}>Email</th>
-          <th style={{ width: 70 }}>Gender</th>
-          <th style={{ width: 150 }}>Date of birth</th>
-          <th style={{ width: 70 }}>Credit</th>
-          <th style={{ width: 120 }} />
+          <th style={{ fontWeight: "bold" }}>Name</th>
+          <th style={{ with: 300, fontWeight: "bold" }}>Email</th>
+          <th style={{ width: 70, fontWeight: "bold" }}>Gender</th>
+          <th style={{ width: 150, fontWeight: "bold" }}>Date of birth</th>
+          <th style={{ width: 70, fontWeight: "bold" }}>Credit</th>
+          <th style={{ width: 120, fontWeight: "bold" }} />
         </tr>
       </thead>
     );
@@ -104,17 +105,31 @@ class StudentList extends React.PureComponent {
 
     return (
       <div>
-        {hasPrev && <a onClick={this.getStudentsByPage.bind(this, currentPage - 1)}>Previous </a>}
-        {hasNext && <a onClick={this.getStudentsByPage.bind(this, currentPage + 1)}>Next</a>}
-        <ul>
+        <ul className="pagination pagination-lg justify-content-center">
+          {
+            <li className={classnames("page-item", { disabled: !hasPrev })}>
+              <a className="page-link" onClick={this.getStudentsByPage.bind(this, currentPage - 1)}>
+                Previous
+              </a>
+            </li>
+          }
           {pageNumber.map(pageNumber => (
-            <a
-              key={pageNumber}
-              onClick={currentPage === pageNumber ? undefined : this.getStudentsByPage.bind(this, pageNumber)}
-            >
-              {pageNumber}
-            </a>
+            <li key={pageNumber} className={classnames("page-item", { active: currentPage === pageNumber })}>
+              <a
+                className="page-link"
+                onClick={currentPage === pageNumber ? undefined : this.getStudentsByPage.bind(this, pageNumber)}
+              >
+                {pageNumber}
+              </a>
+            </li>
           ))}
+          {
+            <li className={classnames("page-item", { disabled: !hasNext })}>
+              <a className="page-link" onClick={this.getStudentsByPage.bind(this, currentPage + 1)}>
+                Next
+              </a>
+            </li>
+          }
         </ul>
       </div>
     );
@@ -122,16 +137,18 @@ class StudentList extends React.PureComponent {
 
   render() {
     return (
-      <div>
+      <div className="container-fluid">
         <h1>Students</h1>
-        <Link to="students/create">New Students</Link>
+        <Link className="btn btn-primary" to="students/create">
+          New Students
+        </Link>
         {this.state.error && <Notification>{this.state.error}</Notification>}
 
         {this.state.isLoading && <Loader />}
         {!this.state.isLoading &&
           !this.state.error && (
-            <div>
-              <table>
+            <div style={{ marginTop: "10px" }}>
+              <table className="table table-striped">
                 {this.renderHead()}
                 {this.renderBody()}
               </table>
