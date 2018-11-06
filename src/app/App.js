@@ -6,6 +6,7 @@ import NotFound from "../common/NotFound";
 import CourseDetails from "../course/CourseDetails";
 import StudentList from "../student/StudentList";
 import Navbar from "./Navbar";
+import StudentDetails from "../student/StudentDetail";
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
           <Route exact path="/courses" component={CourseList} />
           <Route exact path="/courses/:id(\d+|create)" component={CourseDetails} />
           <Route exact path="/students" component={StudentList} />
+          <Route exact path="/students/:id(\d+|create)" component={StudentDetails} />
           <Route path="*" component={NotFound} />
         </Switch>
       </div>
