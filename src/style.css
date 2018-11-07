@@ -1,5 +1,17 @@
-.lms-form_container {
+.lms-container {
   margin-top: 20px;
-  margin-left: 20px;
-  width: 400px;
+  margin-left: 50px;
+  max-width: 700px;
+}
+
+.lms-form__container {
+  border: 3px solid rgb(247, 247, 249);
+  padding: 30px;
+  margin-top: 20px;
+}
+
+.lms-list__container {
+  border: 3px solid rgb(247, 247, 249);
+  padding: 20px;
+  margin: 20px;
 }
