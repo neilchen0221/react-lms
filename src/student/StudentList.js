@@ -48,7 +48,7 @@ class StudentList extends React.PureComponent {
       <thead>
         <tr>
           <th style={{ fontWeight: "bold" }}>Name</th>
-          <th style={{ with: 300, fontWeight: "bold" }}>Email</th>
+          <th style={{ width: 450, fontWeight: "bold" }}>Email</th>
           <th style={{ width: 70, fontWeight: "bold" }}>Gender</th>
           <th style={{ width: 150, fontWeight: "bold" }}>Date of birth</th>
           <th style={{ width: 70, fontWeight: "bold" }}>Credit</th>
@@ -137,9 +137,9 @@ class StudentList extends React.PureComponent {
 
   render() {
     return (
-      <div className="container-fluid">
+      <div className="lms-list__container">
         <h1>Students</h1>
-        <Link className="btn btn-primary" to="students/create">
+        <Link className="btn btn-primary my-3" to="students/create">
           New Students
         </Link>
         {this.state.error && <Notification>{this.state.error}</Notification>}
