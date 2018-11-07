@@ -7,17 +7,21 @@ export default function Navbar() {
       <NavLink className="navbar-brand" to="/">
         LMS
       </NavLink>
-      <div className="navbar-nav">
-        <NavLink className="nav-item nav-link" to="/">
+      <div className="navbar-nav ml-5">
+        <NavLink className="nav-item nav-link mx-2" to="/dashboard">
           Dashboard
         </NavLink>
 
-        <NavLink className="nav-item nav-link" to="/courses">
+        <NavLink className="nav-item nav-link mx-2" to="/courses">
           Course
         </NavLink>
 
-        <NavLink className="nav-item nav-link" to="/students">
+        <NavLink className="nav-item nav-link mx-2" to="/students">
           Student
+        </NavLink>
+
+        <NavLink className="nav-item nav-link mx-2" to="/lecturers">
+          Lecturer
         </NavLink>
       </div>
     </nav>
