@@ -6,6 +6,7 @@ import Loader from "../common/Loader";
 import { pick } from "lodash/object";
 import { getValidationErrors } from "../common/Helper";
 import "../style.css";
+import { Link } from "react-router-dom";
 
 const schema = yup.object().shape({
   firstName: yup
@@ -168,71 +169,97 @@ class StudentDetails extends React.PureComponent {
           </div>
         </div>
 
-        <form onSubmit={this.handleSubmit}>
+        <form className="lms-form__container" onSubmit={this.handleSubmit}>
           <div className="form-group row">
-            <label className="col-sm-4">First Name</label>
-            <input
-              className="form-control col-sm-8"
-              name="firstName"
-              value={firstName}
-              onChange={this.handleFieldChange}
-            />
-            {validationErrors.firstName && <p style={{ color: "red" }}>{validationErrors.firstName}</p>}
+            <label className="col-sm-3 font-weight-bold">First Name</label>
+            <span className="col-sm-9">
+              <input
+                className="form-control"
+                name="firstName"
+                value={firstName}
+                onChange={this.handleFieldChange}
+                placeholder="First Name"
+              />
+              {validationErrors.firstName && <div className="text-danger">{validationErrors.firstName}</div>}
+            </span>
           </div>
           <div className="form-group row">
-            <label className="col-sm-4">Last Name</label>
-            <input
-              className="form-control col-sm-8"
-              name="lastName"
-              value={lastName}
-              onChange={this.handleFieldChange}
-            />
-            {validationErrors.lastName && <p style={{ color: "red" }}>{validationErrors.lastName}</p>}
+            <label className="col-sm-3 font-weight-bold">Last Name</label>
+            <span className="col-sm-9">
+              <input
+                className="form-control"
+                name="lastName"
+                value={lastName}
+                onChange={this.handleFieldChange}
+                placeholder="Last Name"
+              />
+              {validationErrors.lastName && <div className="text-danger">{validationErrors.lastName}</div>}
+            </span>
           </div>
           <div className="form-group row">
-            <label className="col-sm-4">Gender</label>
-            <select
-              className="form-control"
-              style={{ width: "120px" }}
-              name="gender"
-              value={gender}
-              onChange={this.handleFieldChange}
-            >
-              <option>--Select--</option>
-              <option value="M">Male</option>
-              <option value="F">Female</option>
-            </select>
-            {validationErrors.gender && <p style={{ color: "red" }}>{validationErrors.gender}</p>}
+            <label className="col-sm-3 font-weight-bold">Gender</label>
+            <span className="col-sm-9">
+              <select
+                className="form-control"
+                style={{ width: "120px" }}
+                name="gender"
+                value={gender}
+                onChange={this.handleFieldChange}
+              >
+                <option>--Select--</option>
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+              </select>
+              {validationErrors.gender && <div className="text-danger">{validationErrors.gender}</div>}
+            </span>
           </div>
           <div className="form-group row">
-            <label className="col-sm-4">Date of birth</label>
-            <input
-              className="form-control"
-              style={{ width: "200px" }}
-              name="dateOfBirth"
-              value={dateOfBirth}
-              onChange={this.handleFieldChange}
-            />
-            {validationErrors.dateOfBirth && <p style={{ color: "red" }}>{validationErrors.dateOfBirth}</p>}
+            <label className="col-sm-3 font-weight-bold">Date of birth</label>
+            <span className="col-sm-9">
+              <input
+                className="form-control"
+                style={{ width: "200px" }}
+                name="dateOfBirth"
+                value={dateOfBirth}
+                onChange={this.handleFieldChange}
+                placeholder="Date of Birth"
+              />
+              {validationErrors.dateOfBirth && <div className="text-danger">{validationErrors.dateOfBirth}</div>}
+            </span>
           </div>
           <div className="form-group row">
-            <label className="col-sm-4">Email</label>
-            <input className="form-control col-sm-8" name="email" value={email} onChange={this.handleFieldChange} />
-            {validationErrors.email && <p style={{ color: "red" }}>{validationErrors.email}</p>}
+            <label className="col-sm-3 font-weight-bold">Email</label>
+            <span className="col-sm-9">
+              <input
+                className="form-control"
+                name="email"
+                value={email}
+                onChange={this.handleFieldChange}
+                placeholder="Email"
+              />
+              {validationErrors.email && <div className="text-danger">{validationErrors.email}</div>}
+            </span>
           </div>
           <div className="form-group row">
-            <label className="col-sm-4">Credit</label>
-            <input
-              className="form-control"
-              style={{ width: "100px" }}
-              name="credit"
-              value={credit}
-              onChange={this.handleFieldChange}
-            />
+            <label className="col-sm-3 font-weight-bold">Credit</label>
+            <span className="col-sm-9">
+              <input
+                className="form-control"
+                style={{ width: "100px" }}
+                name="credit"
+                value={credit}
+                onChange={this.handleFieldChange}
+                placeholder="Credit"
+              />
+              {validationErrors.credit && <div className="text-danger">{validationErrors.credit}</div>}
+            </span>
           </div>
           <button className="btn btn-primary" type="submit">
             {this.isCreating() ? "Create" : "Save"}
           </button>
+          <Link className="btn btn-light ml-3" to="/students">
+            Close
+          </Link>
         </form>
       </div>
     );
@@ -240,7 +267,7 @@ class StudentDetails extends React.PureComponent {
 
   render() {
     return (
-      <div className="lms-form_container">
+      <div className="lms-container">
         <h1>{this.isCreating() ? "New Student" : "Student Detail"}</h1>
         {this.state.error && <Notification>{this.state.error}</Notification>}
         {this.state.isLoading && <Loader />}
