@@ -1,5 +1,5 @@
 import React from "react";
 
 export default function Loader() {
-  return <h3>Loading...</h3>;
+  return <h3 className="text-center">Loading...</h3>;
 }
