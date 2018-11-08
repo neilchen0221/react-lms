@@ -42,11 +42,19 @@ class LecturerList extends React.PureComponent {
       <tbody>
         {this.state.isLoading && (
           <tr>
-            <td>
+            <td colSpan="6">
               <Loader />
             </td>
           </tr>
         )}
+        {!this.state.isLoading &&
+          !this.state.lecturers.length && (
+            <tr>
+              <td colSpan="6">
+                <h3 className="text-center">No Course...</h3>
+              </td>
+            </tr>
+          )}
         {!this.state.isLoading &&
           this.state.lecturers.map(lecturer => (
             <tr key={lecturer.id}>
