@@ -42,16 +42,16 @@ export default function Dashboard() {
       </div>
       <div className="row justify-content-around">
         <div className="col-sm-5">
-          <div className="card text-white bg-warning mb-5">
+          <div className="card text-dark bg-warning mb-5">
             <div className="card-header">
               <h3>Student</h3>
             </div>
             <div className="card-body">
               <h5 className="card-title mb-5">Hard-working and smart students</h5>
-              <Link className="btn btn-outline-light mr-3" to={`/students`}>
+              <Link className="btn btn-outline-dark mr-3" to={`/students`}>
                 Student List
               </Link>
-              <Link className="btn btn-outline-light" to={`/students/create`}>
+              <Link className="btn btn-outline-dark" to={`/students/create`}>
                 New Student
               </Link>
             </div>
