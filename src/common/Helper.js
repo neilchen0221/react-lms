@@ -5,3 +5,8 @@ export function getValidationErrors(err) {
   }, {});
   return validationErrors;
 }
+
+export function redirect(path) {
+  const hostUrl = process.env.HOST_URL;
+  window.location.href = `${hostUrl}#${path}`;
+}
