@@ -29,7 +29,7 @@ const schema = yup.object().shape({
     .number()
     .positive()
     .min(10)
-    .max(40)
+    .max(50)
     .label("Max students")
     .required(),
   description: yup
