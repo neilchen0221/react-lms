@@ -9,6 +9,7 @@ import Navbar from "./Navbar";
 import StudentDetails from "../student/StudentDetail";
 import LecturerList from "../lecturer/LecturerList";
 import LecturerDetails from "../lecturer/LecturerDetail";
+import Login from "../login/Login";
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
           <Route exact path="/students/:id(\d+|create)" component={StudentDetails} />
           <Route exact path="/lecturers" component={LecturerList} />
           <Route exact path="/lecturers/:id(\d+|create)" component={LecturerDetails} />
+          <Route exact path="/login" component={Login} />
           <Route path="*" component={NotFound} />
         </Switch>
       </div>
