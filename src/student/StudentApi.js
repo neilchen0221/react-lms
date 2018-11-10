@@ -1,10 +1,12 @@
 import axios from "axios";
 import { pick } from "lodash/object";
 
-export function getStudents(pageNumber = 1) {
+export function getStudents(pageNumber = 1, searchValue = "") {
+  let searchValueUrl = searchValue ? `&searchValue=${searchValue}` : "";
+
   return new Promise((resolve, reject) => {
     axios
-      .get(`/api/students?pageNumber=${pageNumber}`)
+      .get(`/api/students?pageNumber=${pageNumber}${searchValueUrl}`)
       .then(response => {
         if (response.status >= 200 && response.status < 300) {
           resolve(response.data);

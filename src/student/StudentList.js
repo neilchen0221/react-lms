@@ -14,15 +14,32 @@ class StudentList extends React.PureComponent {
       currentPage: 1,
       isPageLoading: false,
       isLoading: true,
+      searchAttr: {
+        searchValue: ""
+      },
       students: []
     };
   }
 
+  async componentDidMount() {
+    await this.getStudentsByPage(1);
+  }
+
+  handleFieldChange = e => {
+    this.setState({
+      searchAttr: { searchValue: e.target.value }
+    });
+  };
+
   getStudentsByPage = async pageNumber => {
+    const {
+      searchAttr: { searchValue }
+    } = this.state;
+
     this.setState({ currentPage: pageNumber, isLoadingPage: true });
 
     try {
-      const data = await StudentApi.getStudents(pageNumber);
+      const data = await StudentApi.getStudents(pageNumber, searchValue);
       this.setState({
         students: data.students,
         totalPage: data.totalPage,
@@ -31,6 +48,7 @@ class StudentList extends React.PureComponent {
         error: ""
       });
     } catch (e) {
+      console.log(e);
       this.setState({
         error: "Something went wrong...",
         isLoading: false,
@@ -38,10 +56,6 @@ class StudentList extends React.PureComponent {
       });
     }
   };
-
-  async componentDidMount() {
-    await this.getStudentsByPage(1);
-  }
 
   renderHead() {
     return (
@@ -63,7 +77,7 @@ class StudentList extends React.PureComponent {
       <tbody>
         {this.state.isLoadingPage && (
           <tr>
-            <td>
+            <td colSpan="6">
               <Loader />
             </td>
           </tr>
@@ -136,26 +150,48 @@ class StudentList extends React.PureComponent {
   }
 
   render() {
+    const {
+      searchAttr: { searchValue }
+    } = this.state;
+
     return (
       <div className="lms-list__container">
         <h1>Students</h1>
         <Link className="btn btn-primary my-3" to="students/create">
           New Students
         </Link>
+
+        <form onSubmit={e => e.preventDefault()} className="form-inline my-3 float-right">
+          <input
+            className="form-control mr-sm-2"
+            type="search"
+            name="searchValue"
+            value={searchValue}
+            placeholder="Search"
+            onChange={this.handleFieldChange}
+          />
+          <button
+            className="btn btn-outline-primary my-2 my-sm-0"
+            type="submit"
+            onClick={this.getStudentsByPage.bind(this, 1)}
+          >
+            <i className="fa fa-search" />
+          </button>
+        </form>
+
         {this.state.error && <Notification>{this.state.error}</Notification>}
 
         {this.state.isLoading && <Loader />}
-        {!this.state.isLoading &&
-          !this.state.error && (
-            <div style={{ marginTop: "10px" }}>
-              <table className="table table-striped">
-                {this.renderHead()}
-                {this.renderBody()}
-              </table>
-              <br />
-              {this.renderPages()}
-            </div>
-          )}
+        {!this.state.isLoading && !this.state.error && (
+          <div style={{ marginTop: "10px" }}>
+            <table className="table table-striped">
+              {this.renderHead()}
+              {this.renderBody()}
+            </table>
+            <br />
+            {this.renderPages()}
+          </div>
+        )}
       </div>
     );
   }
