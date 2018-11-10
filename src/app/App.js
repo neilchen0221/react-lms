@@ -10,6 +10,7 @@ import StudentDetails from "../student/StudentDetail";
 import LecturerList from "../lecturer/LecturerList";
 import LecturerDetails from "../lecturer/LecturerDetail";
 import Login from "../login/Login";
+import "../style.css";
 
 export default function App() {
   return (

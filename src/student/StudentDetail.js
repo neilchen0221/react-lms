@@ -5,7 +5,6 @@ import Notification from "../common/Notification";
 import Loader from "../common/Loader";
 import { pick } from "lodash/object";
 import { getValidationErrors } from "../common/Helper";
-import "../style.css";
 import { Link } from "react-router-dom";
 
 const schema = yup.object().shape({
@@ -63,6 +62,7 @@ class StudentDetails extends React.PureComponent {
         const student = await StudentApi.getStudentById(this.getStudentId());
         this.setState({ isLoading: false, student: student });
       } catch (err) {
+        console.log(err);
         this.setState({
           error: "Error occurred while loading the student"
         });
