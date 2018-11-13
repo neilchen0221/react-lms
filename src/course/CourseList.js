@@ -31,7 +31,7 @@ class CourseList extends React.Component {
         {this.state.courses.map(c => {
           return (
             <div key={c.id} className="col-sm-4" style={{ padding: "1rem" }}>
-              <div className="card">
+              <div className="card lms-shadow">
                 <div className="card-header">
                   <h5>{c.title}</h5>
                 </div>
@@ -52,9 +52,12 @@ class CourseList extends React.Component {
   render() {
     return (
       <div className="lms-list__container">
-        <h1>Course List</h1>
+        <h1>
+          <i className="fas fa-swatchbook mx-3" />
+          Course List
+        </h1>
         <Link className="btn btn-primary my-3" to={`/courses/create`}>
-          New Couse
+          New Course
         </Link>
         {this.state.error && <Notification>{this.state.error}</Notification>}
         {this.state.isLoading && <Loader />}
