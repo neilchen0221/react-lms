@@ -11,6 +11,7 @@ import LecturerList from "../lecturer/LecturerList";
 import LecturerDetails from "../lecturer/LecturerDetail";
 import Login from "../login/Login";
 import "../style.css";
+import Register from "../login/Register";
 
 export default function App() {
   return (
@@ -28,6 +29,7 @@ export default function App() {
           <Route exact path="/lecturers" component={LecturerList} />
           <Route exact path="/lecturers/:id(\d+|create)" component={LecturerDetails} />
           <Route exact path="/login" component={Login} />
+          <Route exact path="/register" component={Register} />
           <Route path="*" component={NotFound} />
         </Switch>
       </div>
