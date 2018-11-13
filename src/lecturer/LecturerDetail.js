@@ -23,6 +23,7 @@ const schema = yup.object().shape({
     .required(),
   email: yup
     .string()
+    .email()
     .label("Email")
     .required(),
   bibliography: yup
@@ -36,6 +37,7 @@ class LecturerDetails extends React.PureComponent {
     super();
     this.state = {
       isLoading: false,
+      isUpdated: false,
       validationErrors: {},
       error: "",
       lecturer: {
@@ -95,9 +97,9 @@ class LecturerDetails extends React.PureComponent {
       }
     } else {
       try {
+        this.setState({ isUpdated: false });
         await LecturerApi.updateLecturer(lecturer.id, lecturer);
-        this.setState({ validationErrors: {} });
-        alert("Lecturer updated!");
+        this.setState({ validationErrors: {}, isUpdated: true });
       } catch (e) {
         this.setState({ validationErrors: {}, error: "Someting went wrong while saving lecturer..." });
       }
@@ -133,7 +135,12 @@ class LecturerDetails extends React.PureComponent {
       <div>
         {!this.isCreating() && (
           <React.Fragment>
-            <button type="button" className="btn btn-danger" data-toggle="modal" data-target="#deleteLecturerModal">
+            <button
+              type="button"
+              className="btn btn-danger mt-3 mx-3"
+              data-toggle="modal"
+              data-target="#deleteLecturerModal"
+            >
               Delete Lecturer
             </button>
             <ConfirmDialog
@@ -144,6 +151,8 @@ class LecturerDetails extends React.PureComponent {
             />
           </React.Fragment>
         )}
+
+        {this.state.isUpdated && <Notification type="success">Lecturer updated</Notification>}
 
         <form className="lms-form__container" onSubmit={this.handleSubmit}>
           <TextField
@@ -192,8 +201,11 @@ class LecturerDetails extends React.PureComponent {
 
   render() {
     return (
-      <div className="lms-container">
-        <h1>{this.isCreating() ? "New Lecturer" : "Lecturer Detail"}</h1>
+      <div className="lms-container mx-1 mx-sm-5">
+        <h1>
+          <i className="fas fa-chalkboard-teacher mx-3" />
+          {this.isCreating() ? "New Lecturer" : "Lecturer Detail"}
+        </h1>
         {this.state.error && <Notification>{this.state.error}</Notification>}
         {this.state.isLoading && <Loader />}
         {!this.state.isLoading && this.state.lecturer && this.renderForm()}
