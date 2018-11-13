@@ -6,6 +6,10 @@ import Loader from "../common/Loader";
 import { pick } from "lodash/object";
 import { getValidationErrors } from "../common/Helper";
 import { Link } from "react-router-dom";
+import ConfirmDialog from "../common/ConfirmDialog";
+import TextField from "../common/TextField";
+import Selector from "../common/Selector";
+import moment from "moment";
 
 const schema = yup.object().shape({
   firstName: yup
@@ -24,10 +28,12 @@ const schema = yup.object().shape({
     .required(),
   dateOfBirth: yup
     .string()
+    .matches(/([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/, "Please follow YYYY-MM-DD date format")
     .label("Date of birth")
     .required(),
   email: yup
     .string()
+    .email()
     .label("Email")
     .required(),
   credit: yup
@@ -42,6 +48,7 @@ class StudentDetails extends React.PureComponent {
     super();
     this.state = {
       isLoading: false,
+      isUpdated: false,
       validationErrors: {},
       error: "",
       student: {
@@ -60,7 +67,10 @@ class StudentDetails extends React.PureComponent {
       try {
         this.setState({ isLoading: true });
         const student = await StudentApi.getStudentById(this.getStudentId());
-        this.setState({ isLoading: false, student: student });
+        this.setState({
+          isLoading: false,
+          student: { ...student, dateOfBirth: moment(student.dateOfBirth).format("YYYY-MM-DD") }
+        });
       } catch (err) {
         console.log(err);
         this.setState({
@@ -89,6 +99,8 @@ class StudentDetails extends React.PureComponent {
     e.preventDefault();
 
     const userInput = pick(this.state.student, ["firstName", "lastName", "gender", "dateOfBirth", "email", "credit"]);
+
+    // validate user input
     try {
       await schema.validate(userInput, {
         abortEarly: false
@@ -99,14 +111,23 @@ class StudentDetails extends React.PureComponent {
       return;
     }
 
+    // try to submit form
     const { student } = this.state;
     if (this.isCreating()) {
-      await StudentApi.createStudent(student);
-      window.location.href = "http://localhost:8080/#/students";
+      try {
+        await StudentApi.createStudent(student);
+        alert("Student created successfully!");
+        window.location.href = "http://localhost:8080/#/students";
+      } catch (e) {
+        console.log(e);
+        this.setState({
+          error: e.data.message || "Something went wrong while creating student... :("
+        });
+      }
     } else {
+      this.setState({ isUpdated: false });
       await StudentApi.updateStudent(student.id, student);
-      this.setState({ validationErrors: {} });
-      alert("Student updated!");
+      this.setState({ validationErrors: {}, isUpdated: true });
     }
   };
 
@@ -137,123 +158,87 @@ class StudentDetails extends React.PureComponent {
     return (
       <div>
         {!this.isCreating() && (
-          <button type="button" className="btn btn-danger" data-toggle="modal" data-target="#deleteStudentModal">
-            Delete Student
-          </button>
+          <React.Fragment>
+            <button
+              type="button"
+              className="btn btn-danger mt-3 mx-3"
+              data-toggle="modal"
+              data-target="#deleteStudentModal"
+            >
+              Delete Student
+            </button>
+
+            <ConfirmDialog
+              id="deleteStudentModal"
+              handleConfirm={this.handleConfirmDelete}
+              title="Are you sure to continue"
+              body="Are you sure you want to delete this student?"
+            />
+          </React.Fragment>
         )}
 
-        <div className="modal fade" id="deleteStudentModal" tabIndex="-1" role="dialog" aria-hidden="true">
-          <div className="modal-dialog modal-dialog-centered" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Are you sure to continue</h5>
-                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">Are you sure you want to delete this student?</div>
-              <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" data-dismiss="modal">
-                  Close
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-success"
-                  data-dismiss="modal"
-                  onClick={this.handleConfirmDelete}
-                >
-                  Yes
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        {this.state.isUpdated && <Notification type="success">Student updated</Notification>}
 
         <form className="lms-form__container" onSubmit={this.handleSubmit}>
-          <div className="form-group row">
-            <label className="col-sm-3 font-weight-bold">First Name</label>
-            <span className="col-sm-9">
-              <input
-                className="form-control"
-                name="firstName"
-                value={firstName}
-                onChange={this.handleFieldChange}
-                placeholder="First Name"
-              />
-              {validationErrors.firstName && <div className="text-danger">{validationErrors.firstName}</div>}
-            </span>
-          </div>
-          <div className="form-group row">
-            <label className="col-sm-3 font-weight-bold">Last Name</label>
-            <span className="col-sm-9">
-              <input
-                className="form-control"
-                name="lastName"
-                value={lastName}
-                onChange={this.handleFieldChange}
-                placeholder="Last Name"
-              />
-              {validationErrors.lastName && <div className="text-danger">{validationErrors.lastName}</div>}
-            </span>
-          </div>
-          <div className="form-group row">
-            <label className="col-sm-3 font-weight-bold">Gender</label>
-            <span className="col-sm-9">
-              <select
-                className="form-control"
-                style={{ width: "120px" }}
-                name="gender"
-                value={gender}
-                onChange={this.handleFieldChange}
-              >
-                <option>--Select--</option>
-                <option value="M">Male</option>
-                <option value="F">Female</option>
-              </select>
-              {validationErrors.gender && <div className="text-danger">{validationErrors.gender}</div>}
-            </span>
-          </div>
-          <div className="form-group row">
-            <label className="col-sm-3 font-weight-bold">Date of birth</label>
-            <span className="col-sm-9">
-              <input
-                className="form-control"
-                style={{ width: "200px" }}
-                name="dateOfBirth"
-                value={dateOfBirth}
-                onChange={this.handleFieldChange}
-                placeholder="Date of Birth"
-              />
-              {validationErrors.dateOfBirth && <div className="text-danger">{validationErrors.dateOfBirth}</div>}
-            </span>
-          </div>
-          <div className="form-group row">
-            <label className="col-sm-3 font-weight-bold">Email</label>
-            <span className="col-sm-9">
-              <input
-                className="form-control"
-                name="email"
-                value={email}
-                onChange={this.handleFieldChange}
-                placeholder="Email"
-              />
-              {validationErrors.email && <div className="text-danger">{validationErrors.email}</div>}
-            </span>
-          </div>
-          <div className="form-group row">
-            <label className="col-sm-3 font-weight-bold">Credit</label>
-            <span className="col-sm-9">
-              <input
-                className="form-control"
-                style={{ width: "100px" }}
-                name="credit"
-                value={credit}
-                onChange={this.handleFieldChange}
-                placeholder="Credit"
-              />
-              {validationErrors.credit && <div className="text-danger">{validationErrors.credit}</div>}
-            </span>
-          </div>
+          <TextField
+            name="firstName"
+            label="First Name"
+            value={firstName}
+            onChange={this.handleFieldChange}
+            placeholder="First Name"
+            error={validationErrors.firstName}
+          />
+          <TextField
+            name="lastName"
+            label="Last Name"
+            value={lastName}
+            onChange={this.handleFieldChange}
+            placeholder="Last Name"
+            error={validationErrors.lastName}
+          />
+
+          <Selector
+            style={{ width: "120px" }}
+            name="gender"
+            label="Gender"
+            value={gender}
+            onChange={this.handleFieldChange}
+            error={validationErrors.gender}
+          >
+            <option value="">--Select--</option>
+            <option value="M">Male</option>
+            <option value="F">Female</option>
+          </Selector>
+
+          <TextField
+            style={{ width: "200px" }}
+            name="dateOfBirth"
+            label="Date Of Birth"
+            value={dateOfBirth}
+            onChange={this.handleFieldChange}
+            placeholder="Date Of Birth"
+            error={validationErrors.dateOfBirth}
+          />
+
+          <TextField
+            name="email"
+            label="Email"
+            value={email}
+            onChange={this.handleFieldChange}
+            placeholder="Email"
+            error={validationErrors.email}
+          />
+
+          <TextField
+            style={{ width: "100px" }}
+            name="credit"
+            label="Credit"
+            value={credit}
+            onChange={this.handleFieldChange}
+            placeholder="Credit"
+            error={validationErrors.credit}
+          />
+
           <button className="btn btn-primary" type="submit">
             {this.isCreating() ? "Create" : "Save"}
           </button>
@@ -267,8 +252,11 @@ class StudentDetails extends React.PureComponent {
 
   render() {
     return (
-      <div className="lms-container">
-        <h1>{this.isCreating() ? "New Student" : "Student Detail"}</h1>
+      <div className="lms-container mx-1 mx-sm-5">
+        <h1>
+          <i className="fas fa-address-card mx-3" />
+          {this.isCreating() ? "New Student" : "Student Detail"}
+        </h1>
         {this.state.error && <Notification>{this.state.error}</Notification>}
         {this.state.isLoading && <Loader />}
         {!this.state.isLoading && this.state.student && this.renderForm()}

@@ -6,6 +6,7 @@ import { getValidationErrors } from "../common/Helper";
 import * as yup from "yup";
 import { pick } from "lodash/object";
 import * as LoginApi from "./LoginApi";
+import { Link } from "react-router-dom";
 
 const schema = yup.object().shape({
   username: yup
@@ -60,6 +61,7 @@ export default class Login extends React.PureComponent {
       axios.defaults.headers.common.Authorization = `Bearer ${response.access_token}`;
       localStorage.setItem("access_token", response.access_token);
 
+      window.location.reload();
       window.location.href = "http://localhost:8080/#/dashboard";
     } catch (err) {
       console.log(err);
@@ -74,13 +76,13 @@ export default class Login extends React.PureComponent {
     const { username, password, validationErrors, loginError, isLoggingIn } = this.state;
     return (
       <div className="row">
-        <div className="lms-container mx-auto col-md-4">
+        <div className="mx-auto mt-5 col-md-3">
           <h3 className="text-center">Please login</h3>
-          <form className="lms-form__container text-center" onSubmit={this.handleSubmit}>
+          <form className="lms-form__container" onSubmit={this.handleSubmit}>
             {loginError && <Notification>{loginError}</Notification>}
             <TextField
               name="username"
-              label="Username"
+              label={<i className="fas fa-user fa-2x pl-3" />}
               value={username}
               onChange={this.handleFieldChange}
               placeholder="Username"
@@ -89,17 +91,21 @@ export default class Login extends React.PureComponent {
             <TextField
               type="password"
               name="password"
-              label="Password"
+              label={<i className="fas fa-unlock-alt fa-2x pl-3" />}
               value={password}
               onChange={this.handleFieldChange}
               placeholder="Password"
               error={validationErrors.password}
             />
-
-            <button type="submit" className="btn btn-primary">
-              {isLoggingIn && <i className="fa fa-spinner fa-spin mr-2" />}
-              Login
-            </button>
+            <div className="text-center">
+              <button type="submit" className="btn btn-primary mr-2">
+                {isLoggingIn && <i className="fa fa-spinner fa-spin mr-2" />}
+                Login
+              </button>
+              <Link className="btn btn-light" to="/register">
+                Register
+              </Link>
+            </div>
           </form>
         </div>
       </div>

@@ -47,14 +47,13 @@ class LecturerList extends React.PureComponent {
             </td>
           </tr>
         )}
-        {!this.state.isLoading &&
-          !this.state.lecturers.length && (
-            <tr>
-              <td colSpan="6">
-                <h3 className="text-center">No Course...</h3>
-              </td>
-            </tr>
-          )}
+        {!this.state.isLoading && !this.state.lecturers.length && (
+          <tr>
+            <td colSpan="6">
+              <h3 className="text-center">No Course...</h3>
+            </td>
+          </tr>
+        )}
         {!this.state.isLoading &&
           this.state.lecturers.map(lecturer => (
             <tr key={lecturer.id}>
@@ -73,22 +72,24 @@ class LecturerList extends React.PureComponent {
   render() {
     return (
       <div className="lms-list__container">
-        <h1>Lecturers</h1>
+        <h1>
+          <i className="fas fa-chalkboard-teacher mx-3" />
+          Lecturers
+        </h1>
         <Link className="btn btn-primary my-3" to="lecturers/create">
           New Lecturer
         </Link>
         {this.state.error && <Notification>{this.state.error}</Notification>}
 
         {this.state.isLoading && <Loader />}
-        {!this.state.isLoading &&
-          !this.state.error && (
-            <div style={{ marginTop: "10px" }}>
-              <table className="table table-striped">
-                {this.renderHead()}
-                {this.renderBody()}
-              </table>
-            </div>
-          )}
+        {!this.state.isLoading && !this.state.error && (
+          <div className="table-responsive mt-2">
+            <table className="table table-striped">
+              {this.renderHead()}
+              {this.renderBody()}
+            </table>
+          </div>
+        )}
       </div>
     );
   }
