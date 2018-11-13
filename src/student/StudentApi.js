@@ -1,12 +1,14 @@
 import axios from "axios";
 import { pick } from "lodash/object";
 
-export function getStudents(pageNumber = 1, searchValue = "") {
+export function getStudents(pageNumber = 1, searchValue = "", sortString = "", sortOrder = true) {
   let searchValueUrl = searchValue ? `&searchValue=${searchValue}` : "";
+  let sortStringUrl = sortString ? `&sortString=${sortString}` : "";
+  let sortOrderUrl = sortOrder ? `&sortOrder=asc` : "&sortOrder=desc";
 
   return new Promise((resolve, reject) => {
     axios
-      .get(`/api/students?pageNumber=${pageNumber}${searchValueUrl}`)
+      .get(`/api/students?pageNumber=${pageNumber}${searchValueUrl}${sortStringUrl}${sortOrderUrl}`)
       .then(response => {
         if (response.status >= 200 && response.status < 300) {
           resolve(response.data);
@@ -24,8 +26,25 @@ export async function getStudentById(id) {
 }
 
 export async function createStudent(student) {
-  const response = await axios.post(`/api/students`, student);
-  return response.data;
+  return new Promise((resolve, reject) => {
+    axios
+      .post(`/api/students`, student)
+      .then(response => {
+        if (response.status >= 200 && response.status < 300) {
+          resolve(response.data);
+        } else {
+          reject(response.response);
+        }
+      })
+      .catch(reject);
+  });
+  // try {
+  //   const response = await axios.post(`/api/students`, student);
+  //   console.log(response.data);
+  //   return response.data;
+  // } catch (e) {
+  //   console.log(e);
+  // }
 }
 
 export async function updateStudent(id, student) {
