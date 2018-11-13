@@ -8,10 +8,16 @@
   border: 3px solid rgb(247, 247, 249);
   padding: 30px;
   margin-top: 20px;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
 }
 
 .lms-list__container {
   border: 3px solid rgb(247, 247, 249);
   padding: 20px;
   margin: 20px;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+}
+
+.lms-shadow {
+  box-shadow: 0.5rem 0.5rem 2rem rgba(0, 0, 0, 0.2);
 }
