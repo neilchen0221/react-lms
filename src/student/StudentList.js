@@ -5,6 +5,7 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 import { range } from "lodash";
 import Notification from "../common/Notification";
+import SortControl from "../common/SortControl";
 import classnames from "classnames";
 
 class StudentList extends React.PureComponent {
@@ -15,7 +16,9 @@ class StudentList extends React.PureComponent {
       isPageLoading: false,
       isLoading: true,
       searchAttr: {
-        searchValue: ""
+        searchValue: "",
+        sortString: "",
+        sortOrder: true
       },
       students: []
     };
@@ -27,19 +30,19 @@ class StudentList extends React.PureComponent {
 
   handleFieldChange = e => {
     this.setState({
-      searchAttr: { searchValue: e.target.value }
+      searchAttr: { ...this.state.searchAttr, searchValue: e.target.value }
     });
   };
 
   getStudentsByPage = async pageNumber => {
     const {
-      searchAttr: { searchValue }
+      searchAttr: { searchValue, sortString, sortOrder }
     } = this.state;
 
     this.setState({ currentPage: pageNumber, isLoadingPage: true });
 
     try {
-      const data = await StudentApi.getStudents(pageNumber, searchValue);
+      const data = await StudentApi.getStudents(pageNumber, searchValue, sortString, sortOrder);
       this.setState({
         students: data.students,
         totalPage: data.totalPage,
@@ -57,14 +60,49 @@ class StudentList extends React.PureComponent {
     }
   };
 
+  handleSort = async e => {
+    const {
+      currentPage,
+      searchAttr,
+      searchAttr: { sortOrder }
+    } = this.state;
+    await this.setState({ searchAttr: { ...searchAttr, sortString: e.target.name, sortOrder: !sortOrder } });
+    this.getStudentsByPage(currentPage);
+  };
+
   renderHead() {
+    const {
+      searchAttr: { sortString, sortOrder }
+    } = this.state;
     return (
       <thead>
         <tr>
-          <th style={{ fontWeight: "bold" }}>Name</th>
-          <th style={{ width: 450, fontWeight: "bold" }}>Email</th>
+          <th>
+            <SortControl
+              isSelected={sortString === "firstName"}
+              isAsc={sortOrder}
+              onClick={this.handleSort}
+              name="firstName"
+            >
+              Name
+            </SortControl>
+          </th>
+          <th style={{ width: 450 }}>
+            <SortControl isSelected={sortString === "email"} isAsc={sortOrder} onClick={this.handleSort} name="email">
+              Email
+            </SortControl>
+          </th>
           <th style={{ width: 70, fontWeight: "bold" }}>Gender</th>
-          <th style={{ width: 150, fontWeight: "bold" }}>Date of birth</th>
+          <th style={{ width: 150 }}>
+            <SortControl
+              isSelected={sortString === "dateOfBirth"}
+              isAsc={sortOrder}
+              onClick={this.handleSort}
+              name="dateOfBirth"
+            >
+              Date of Birth
+            </SortControl>
+          </th>
           <th style={{ width: 70, fontWeight: "bold" }}>Credit</th>
           <th style={{ width: 120, fontWeight: "bold" }} />
         </tr>
@@ -79,6 +117,13 @@ class StudentList extends React.PureComponent {
           <tr>
             <td colSpan="6">
               <Loader />
+            </td>
+          </tr>
+        )}
+        {!this.state.isLoading && !this.state.students.length && (
+          <tr>
+            <td colSpan="6">
+              <h3 className="text-center">No Students...</h3>
             </td>
           </tr>
         )}
@@ -119,7 +164,7 @@ class StudentList extends React.PureComponent {
 
     return (
       <div>
-        <ul className="pagination pagination-lg justify-content-center">
+        <ul className="pagination justify-content-center">
           {
             <li className={classnames("page-item", { disabled: !hasPrev })}>
               <a className="page-link" onClick={this.getStudentsByPage.bind(this, currentPage - 1)}>
@@ -156,25 +201,23 @@ class StudentList extends React.PureComponent {
 
     return (
       <div className="lms-list__container">
-        <h1>Students</h1>
+        <h1>
+          <i className="fas fa-user-graduate mx-3" />
+          Students
+        </h1>
         <Link className="btn btn-primary my-3" to="students/create">
           New Students
         </Link>
 
-        <form onSubmit={e => e.preventDefault()} className="form-inline my-3 float-right">
+        <form onSubmit={e => e.preventDefault()} className="form-inline flex-nowrap justify-content-end">
           <input
-            className="form-control mr-sm-2"
-            type="search"
+            className="form-control mr-2"
             name="searchValue"
             value={searchValue}
             placeholder="Search"
             onChange={this.handleFieldChange}
           />
-          <button
-            className="btn btn-outline-primary my-2 my-sm-0"
-            type="submit"
-            onClick={this.getStudentsByPage.bind(this, 1)}
-          >
+          <button className="btn btn-outline-info my-2" type="submit" onClick={this.getStudentsByPage.bind(this, 1)}>
             <i className="fa fa-search" />
           </button>
         </form>
@@ -183,7 +226,7 @@ class StudentList extends React.PureComponent {
 
         {this.state.isLoading && <Loader />}
         {!this.state.isLoading && !this.state.error && (
-          <div style={{ marginTop: "10px" }}>
+          <div className="table-responsive mt-2">
             <table className="table table-striped">
               {this.renderHead()}
               {this.renderBody()}
