@@ -3,7 +3,7 @@ import * as CourseApi from "./CourseApi";
 import Loader from "../common/Loader";
 import * as yup from "yup";
 import { pick } from "lodash/object";
-import { getValidationErrors } from "../common/Helper";
+import { getValidationErrors, redirect } from "../common/Helper";
 import Notification from "../common/Notification";
 import { Link } from "react-router-dom";
 import ConfirmDialog from "../common/ConfirmDialog";
@@ -99,7 +99,7 @@ class CourseDetails extends React.Component {
     if (this.isCreating()) {
       try {
         await CourseApi.createCourse(course);
-        window.location.href = "http://localhost:8080/#/courses";
+        redirect("/courses");
       } catch (e) {
         this.setState({ validationErrors: {}, error: "Someting went wrong while creating course..." });
       }
@@ -118,7 +118,7 @@ class CourseDetails extends React.Component {
     try {
       await CourseApi.deleteCourse(this.getCourseId());
       alert("Course deleted!");
-      window.location.href = "http://localhost:8080/#/courses";
+      redirect("/courses");
     } catch (err) {
       this.setState({
         error: "Error occurred while deleting the course"
