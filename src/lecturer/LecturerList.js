@@ -18,7 +18,7 @@ class LecturerList extends React.PureComponent {
     this.setState({ isLoading: true });
     try {
       const lecturers = await LecturerApi.getLecturers();
-      this.setState({ lecturers, isLoading: false });
+      this.setState({ lecturers: lecturers || [], isLoading: false });
     } catch (e) {
       this.setState({ isLoading: false, error: "Something went wrong while loading lecturers..." });
     }
@@ -47,7 +47,7 @@ class LecturerList extends React.PureComponent {
             </td>
           </tr>
         )}
-        {!this.state.isLoading && !this.state.lecturers.length && (
+        {!this.state.isLoading && !this.state.lecturers && (
           <tr>
             <td colSpan="6">
               <h3 className="text-center">No Course...</h3>

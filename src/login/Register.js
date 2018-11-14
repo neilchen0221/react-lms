@@ -1,7 +1,7 @@
 import React from "react";
 import TextField from "../common/TextField";
 import Notification from "../common/Notification";
-import { getValidationErrors } from "../common/Helper";
+import { getValidationErrors, redirect } from "../common/Helper";
 import * as yup from "yup";
 import { pick } from "lodash/object";
 import * as LoginApi from "./LoginApi";
@@ -90,8 +90,7 @@ export default class Register extends React.PureComponent {
       this.setState({ validationErrors: {}, isRegistering: true });
       await LoginApi.registerUser(userInput);
       this.setState({ loginError: "", isRegistering: false });
-
-      window.location.href = "http://localhost:8080/#/login";
+      redirect("/login");
     } catch (err) {
       console.log(err);
       this.setState({

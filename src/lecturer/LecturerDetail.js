@@ -6,7 +6,7 @@ import Loader from "../common/Loader";
 import TextAreaField from "../common/TextAreaField";
 import * as yup from "yup";
 import { pick } from "lodash/object";
-import { getValidationErrors } from "../common/Helper";
+import { getValidationErrors, redirect } from "../common/Helper";
 import { Link } from "react-router-dom";
 import ConfirmDialog from "../common/ConfirmDialog";
 
@@ -91,7 +91,7 @@ class LecturerDetails extends React.PureComponent {
       try {
         await LecturerApi.createLecturer(lecturer);
         this.setState({ validationErrors: {} });
-        window.location.href = "http://localhost:8080/#/lecturers";
+        redirect("/lecturers");
       } catch (e) {
         this.setState({ validationErrors: {}, error: "Someting went wrong while creating lecturer..." });
       }
@@ -110,7 +110,7 @@ class LecturerDetails extends React.PureComponent {
     try {
       await LecturerApi.deleteLecturer(this.getLecturerId());
       alert("lecturer deleted!");
-      window.location.href = "http://localhost:8080/#/lecturers";
+      redirect("/lecturers");
     } catch (err) {
       this.setState({
         error: "Error occurred while deleting the lecturer"

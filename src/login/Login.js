@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import TextField from "../common/TextField";
 import Notification from "../common/Notification";
-import { getValidationErrors } from "../common/Helper";
+import { getValidationErrors, redirect } from "../common/Helper";
 import * as yup from "yup";
 import { pick } from "lodash/object";
 import * as LoginApi from "./LoginApi";
@@ -60,9 +60,8 @@ export default class Login extends React.PureComponent {
       // Update bearer token
       axios.defaults.headers.common.Authorization = `Bearer ${response.access_token}`;
       localStorage.setItem("access_token", response.access_token);
-
+      redirect("/dashboard");
       window.location.reload();
-      window.location.href = "http://localhost:8080/#/dashboard";
     } catch (err) {
       console.log(err);
       this.setState({
