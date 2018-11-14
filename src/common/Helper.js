@@ -7,6 +7,10 @@ export function getValidationErrors(err) {
 }
 
 export function redirect(path) {
-  const hostUrl = process.env.HOST_URL;
+  const hostUrl = HOST_URL || process.env.HOST_URL;
   window.location.href = `${hostUrl}#${path}`;
+}
+
+export function getApiUrl() {
+  return API_URL || process.env.API_URL;
 }
