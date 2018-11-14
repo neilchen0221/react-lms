@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --mode development --hot --open --history-api-fallback",
-    "build": "webpack --mode production"
+    "clean": "rimraf ./build/css/*.css && rimraf ./build/*.js",
+    "build": "webpack --config webpack.prod.js --mode production",
+    "s3sync": "aws s3 sync ./build s3://lms-webapp --storage-class REDUCED_REDUNDANCY --delete",
+    "deploy": "npm run clean && npm run build && npm run s3sync"
   },
   "author": "",
   "license": "ISC",
@@ -32,15 +35,18 @@
     "eslint-plugin-standard": "^3.1.0",
     "file-loader": "^2.0.0",
     "html-webpack-plugin": "^3.2.0",
+    "node-sass": "^4.10.0",
+    "sass-loader": "^7.1.0",
     "style-loader": "^0.21.0",
     "url-loader": "^1.1.2",
-    "webpack": "^4.16.4",
+    "webpack": "^4.25.1",
     "webpack-cli": "^3.1.0",
     "webpack-dev-server": "^3.1.5"
   },
   "dependencies": {
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
     "prop-types": "^15.6.2",

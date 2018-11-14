@@ -1,3 +1,4 @@
+const webpack = require("webpack");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const ErrorOverlayPlugin = require("error-overlay-webpack-plugin");
 
@@ -7,6 +8,10 @@ const htmlPlugin = new HtmlWebPackPlugin({
 });
 
 const errorOverlayPlugin = new ErrorOverlayPlugin();
+const definePlugin = new webpack.DefinePlugin({
+  API_URL: JSON.stringify("https://lms20181114044711.azurewebsites.net"),
+  HOST_URL: JSON.stringify("http://localhost:8080")
+});
 
 module.exports = {
   entry: "./src/index.js",
@@ -43,5 +48,5 @@ module.exports = {
       }
     ]
   },
-  plugins: [htmlPlugin, errorOverlayPlugin]
+  plugins: [htmlPlugin, errorOverlayPlugin, definePlugin]
 };
