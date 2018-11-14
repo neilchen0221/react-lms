@@ -1,5 +1,5 @@
 import React from "react";
 
 export default function NotFound() {
-  return <h3>Not Found...</h3>;
+  return <h1 className="text-center mt-5">404 Page Not Found :( ...</h1>;
 }
