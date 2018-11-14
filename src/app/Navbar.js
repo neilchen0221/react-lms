@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink, Link } from "react-router-dom";
 import axios from "axios";
+import { redirect } from "../common/Helper";
 
 export default class Navbar extends React.Component {
   constructor() {
@@ -16,10 +17,12 @@ export default class Navbar extends React.Component {
     });
   }
 
-  handleLogout = () => {
+  handleLogout = e => {
+    e.preventDefault();
     localStorage.removeItem("access_token");
     axios.defaults.headers.common.Authorization = "";
     this.setState({ isLoggedin: false });
+    redirect("/login");
   };
 
   render() {
@@ -38,7 +41,7 @@ export default class Navbar extends React.Component {
         </button>
         <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
           <NavLink className="navbar-brand m-0" to="/">
-            <img src={require("../image/lms_brand.png")} height="40spx" alt="lms_brand" />
+            <img src="https://s3-ap-southeast-2.amazonaws.com/lms-webapp/lms_brand.png" height="40px" alt="lms_brand" />
           </NavLink>
 
           <div className="navbar-nav ml-sm-5">
