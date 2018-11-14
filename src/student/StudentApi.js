@@ -38,13 +38,6 @@ export async function createStudent(student) {
       })
       .catch(reject);
   });
-  // try {
-  //   const response = await axios.post(`/api/students`, student);
-  //   console.log(response.data);
-  //   return response.data;
-  // } catch (e) {
-  //   console.log(e);
-  // }
 }
 
 export async function updateStudent(id, student) {

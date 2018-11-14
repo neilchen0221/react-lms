@@ -51,7 +51,6 @@ class StudentList extends React.PureComponent {
         error: ""
       });
     } catch (e) {
-      console.log(e);
       this.setState({
         error: "Something went wrong...",
         isLoading: false,

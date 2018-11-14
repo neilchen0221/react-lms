@@ -4,7 +4,7 @@ import * as StudentApi from "./StudentApi";
 import Notification from "../common/Notification";
 import Loader from "../common/Loader";
 import { pick } from "lodash/object";
-import { getValidationErrors } from "../common/Helper";
+import { getValidationErrors, redirect } from "../common/Helper";
 import { Link } from "react-router-dom";
 import ConfirmDialog from "../common/ConfirmDialog";
 import TextField from "../common/TextField";
@@ -117,9 +117,8 @@ class StudentDetails extends React.PureComponent {
       try {
         await StudentApi.createStudent(student);
         alert("Student created successfully!");
-        window.location.href = "http://localhost:8080/#/students";
+        redirect("/students");
       } catch (e) {
-        console.log(e);
         this.setState({
           error: e.data.message || "Something went wrong while creating student... :("
         });
@@ -135,7 +134,7 @@ class StudentDetails extends React.PureComponent {
     try {
       await StudentApi.deleteStudent(this.getStudentId());
       alert("Student deleted!");
-      window.location.href = "http://localhost:8080/#/students";
+      redirect("/students");
     } catch (err) {
       this.setState({
         error: "Error occurred while deleting the student"
