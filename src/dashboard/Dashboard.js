@@ -5,8 +5,7 @@ export default function Dashboard() {
   return (
     <div className="lms-list__container mt-5 p-4">
       <h1 className="text-center mb-5">
-        Welcome to <img src={require("../image/lms_brand.png")} height="60px" />
-        {/* <i className="fas fa-chart-line ml-3" /> */}
+        Welcome to <img src="https://s3-ap-southeast-2.amazonaws.com/lms-webapp/lms_brand.png" height="60px" />
       </h1>
 
       <div className="row justify-content-around ">
