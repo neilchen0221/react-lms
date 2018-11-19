@@ -11,7 +11,7 @@ function ConfirmDialog({ id, handleConfirm, title, body }) {
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div className="modal-body">{body}</div>
+          <div className="modal-body text-left">{body}</div>
           <div className="modal-footer">
             <button type="button" className="btn btn-secondary" data-dismiss="modal">
               Close
