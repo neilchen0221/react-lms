@@ -13,7 +13,7 @@ const errorOverlayPlugin = new ErrorOverlayPlugin();
 const extractTextPlubin = new ExtractTextPlugin("css/app-[hash].css");
 const definePlugin = new webpack.DefinePlugin({
   API_URL: JSON.stringify("https://lms20181114044711.azurewebsites.net"),
-  HOST_URL: JSON.stringify("http://lms-webapp.s3-website-ap-southeast-2.amazonaws.com")
+  HOST_URL: JSON.stringify("https://lms.techcrafting.net")
 });
 
 module.exports = {
