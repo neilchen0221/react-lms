@@ -7,7 +7,7 @@
     "start": "webpack-dev-server --mode development --hot --open --history-api-fallback",
     "clean": "rimraf ./build/css/*.css && rimraf ./build/*.js",
     "build": "webpack --config webpack.prod.js --mode production",
-    "s3sync": "aws s3 sync ./build s3://lms-webapp --storage-class REDUCED_REDUNDANCY --delete",
+    "s3sync": "aws s3 sync ./build s3://lms.techcrafting.net --storage-class REDUCED_REDUNDANCY --delete",
     "deploy": "npm run clean && npm run build && npm run s3sync"
   },
   "author": "",
