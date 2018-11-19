@@ -10,6 +10,7 @@ import ConfirmDialog from "../common/ConfirmDialog";
 import TextField from "../common/TextField";
 import TextAreaField from "../common/TextAreaField";
 import Selector from "../common/Selector";
+import CoursePeople from "./CoursePeople";
 
 const schema = yup.object().shape({
   title: yup
@@ -233,15 +234,18 @@ class CourseDetails extends React.Component {
 
   render() {
     return (
-      <div className="lms-container mx-1 mx-sm-5">
-        <h1>
-          <i className="fas fa-book-open mx-3" />
-          {this.isCreating() ? "New Course" : "Course Detail"}
-        </h1>
-        {this.state.error && <Notification>{this.state.error}</Notification>}
-        {this.state.isLoading && <Loader />}
-        {!this.state.isLoading && this.state.course && this.renderForm()}
-        {!this.state.isLoading && !this.state.course && <h3>Course not found.</h3>}
+      <div className="row mt-4 justify-content-around">
+        <div className="col-md-10 col-xl-5 mb-5">
+          <h1>
+            <i className="fas fa-book-open mx-3" />
+            {this.isCreating() ? "New Course" : "Course Detail"}
+          </h1>
+          {this.state.error && <Notification>{this.state.error}</Notification>}
+          {this.state.isLoading && <Loader />}
+          {!this.state.isLoading && this.state.course && this.renderForm()}
+          {!this.state.isLoading && !this.state.course && <h3>Course not found.</h3>}
+        </div>
+        {!this.isCreating() && <CoursePeople courseId={this.getCourseId()} />}
       </div>
     );
   }
