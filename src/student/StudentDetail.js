@@ -10,6 +10,7 @@ import ConfirmDialog from "../common/ConfirmDialog";
 import TextField from "../common/TextField";
 import Selector from "../common/Selector";
 import moment from "moment";
+import StudentEnroll from "./StudentEnroll";
 
 const schema = yup.object().shape({
   firstName: yup
@@ -79,6 +80,22 @@ class StudentDetails extends React.PureComponent {
       }
     }
   }
+
+  getStudent = async () => {
+    try {
+      this.setState({ isLoading: true });
+      const student = await StudentApi.getStudentById(this.getStudentId());
+      this.setState({
+        isLoading: false,
+        student: { ...student, dateOfBirth: moment(student.dateOfBirth).format("YYYY-MM-DD") }
+      });
+    } catch (err) {
+      console.log(err);
+      this.setState({
+        error: "Error occurred while loading the student"
+      });
+    }
+  };
 
   handleFieldChange = e => {
     const {
@@ -241,7 +258,7 @@ class StudentDetails extends React.PureComponent {
           <button className="btn btn-primary" type="submit">
             {this.isCreating() ? "Create" : "Save"}
           </button>
-          <Link className="btn btn-light ml-3" to="/students">
+          <Link className="btn btn-light border ml-3" to="/students">
             Close
           </Link>
         </form>
@@ -251,14 +268,17 @@ class StudentDetails extends React.PureComponent {
 
   render() {
     return (
-      <div className="lms-container mx-1 mx-sm-5">
-        <h1>
-          <i className="fas fa-address-card mx-3" />
-          {this.isCreating() ? "New Student" : "Student Detail"}
-        </h1>
-        {this.state.error && <Notification>{this.state.error}</Notification>}
-        {this.state.isLoading && <Loader />}
-        {!this.state.isLoading && this.state.student && this.renderForm()}
+      <div className="row mt-4 justify-content-around">
+        <div className="col-md-10 col-xl-5 mb-5">
+          <h1>
+            <i className="fas fa-address-card mx-3" />
+            {this.isCreating() ? "New Student" : "Student Detail"}
+          </h1>
+          {this.state.error && <Notification>{this.state.error}</Notification>}
+          {this.state.isLoading && <Loader />}
+          {!this.state.isLoading && this.state.student && this.renderForm()}
+        </div>
+        {!this.isCreating() && <StudentEnroll studentId={this.getStudentId()} reloadStudent={this.getStudent} />}
       </div>
     );
   }
