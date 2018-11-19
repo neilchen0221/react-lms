@@ -41,7 +41,11 @@ export default class Navbar extends React.Component {
         </button>
         <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
           <NavLink className="navbar-brand m-0" to="/">
-            <img src="https://s3-ap-southeast-2.amazonaws.com/lms-webapp/lms_brand.png" height="40px" alt="lms_brand" />
+            <img
+              src="https://s3-ap-southeast-2.amazonaws.com/lms.techcrafting.net/lms_brand.png"
+              height="40px"
+              alt="lms_brand"
+            />
           </NavLink>
 
           <div className="navbar-nav ml-sm-5">
