@@ -119,7 +119,7 @@ class StudentList extends React.PureComponent {
             </td>
           </tr>
         )}
-        {!this.state.isLoading && !this.state.students.length && (
+        {!this.state.isLoadingPage && !this.state.students.length && (
           <tr>
             <td colSpan="6">
               <h3 className="text-center">No Students...</h3>
