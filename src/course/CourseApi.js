@@ -26,3 +26,12 @@ export async function deleteCourse(id) {
   const response = await axios.delete(`/api/courses/${id}`);
   return response.data;
 }
+
+export async function getCourseStudent(courseId) {
+  const response = await axios.get(`/api/coursestudent/${courseId}`);
+  return response.data;
+}
+export async function getCourseLecturer(courseId) {
+  const response = await axios.get(`/api/courselecturer/${courseId}`);
+  return response.data;
+}
