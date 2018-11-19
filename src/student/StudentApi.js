@@ -50,3 +50,27 @@ export async function deleteStudent(id) {
   const response = await axios.delete(`/api/students/${id}`);
   return response.data;
 }
+
+export async function getStudentCourse(id) {
+  const response = await axios.get(`/api/studentcourse/${id}`);
+  return response.data;
+}
+
+export function enrollCourse(studentId, courseId) {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(`/api/students/enrollcourse?studentId=${studentId}&courseId=${courseId}`)
+      .then(response => {
+        if (response.status >= 200 && response.status < 300) {
+          resolve(response.data);
+        } else {
+          reject(response.response);
+        }
+      })
+      .catch(reject);
+  });
+}
+
+export async function cancelCourse(studentId, courseId) {
+  await axios.post(`/api/students/cancelcourse?studentId=${studentId}&courseId=${courseId}`);
+}
