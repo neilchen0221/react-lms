@@ -75,7 +75,7 @@ export default class Login extends React.PureComponent {
     const { username, password, validationErrors, loginError, isLoggingIn } = this.state;
     return (
       <div className="row">
-        <div className="mx-auto mt-5 col-md-3">
+        <div className="mx-auto mt-5 col-sm-6 col-xl-3">
           <h3 className="text-center">Please login</h3>
           <form className="lms-form__container" onSubmit={this.handleSubmit}>
             {loginError && <Notification>{loginError}</Notification>}

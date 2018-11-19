@@ -109,7 +109,7 @@ export default class Register extends React.PureComponent {
     } = this.state;
     return (
       <div className="row">
-        <div className=" mx-auto mt-5 col-md-5">
+        <div className=" mx-auto mt-5 col-sm-10 col-xl-5">
           <h3 className="text-center">Please Sign Up</h3>
           <form className="lms-form__container" onSubmit={this.handleSubmit}>
             {registerError && <Notification>{registerError}</Notification>}
