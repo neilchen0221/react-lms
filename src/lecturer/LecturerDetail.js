@@ -9,6 +9,7 @@ import { pick } from "lodash/object";
 import { getValidationErrors, redirect } from "../common/Helper";
 import { Link } from "react-router-dom";
 import ConfirmDialog from "../common/ConfirmDialog";
+import LecturerAssign from "./LecturerAssign";
 
 const schema = yup.object().shape({
   name: yup
@@ -201,15 +202,18 @@ class LecturerDetails extends React.PureComponent {
 
   render() {
     return (
-      <div className="lms-container mx-1 mx-sm-5">
-        <h1>
-          <i className="fas fa-chalkboard-teacher mx-3" />
-          {this.isCreating() ? "New Lecturer" : "Lecturer Detail"}
-        </h1>
-        {this.state.error && <Notification>{this.state.error}</Notification>}
-        {this.state.isLoading && <Loader />}
-        {!this.state.isLoading && this.state.lecturer && this.renderForm()}
-        {!this.state.isLoading && !this.state.lecturer && <h3>Lecturer not found.</h3>}
+      <div className="row mt-4 justify-content-around">
+        <div className="col-md-10 col-xl-5 mb-5">
+          <h1>
+            <i className="fas fa-chalkboard-teacher mx-3" />
+            {this.isCreating() ? "New Lecturer" : "Lecturer Detail"}
+          </h1>
+          {this.state.error && <Notification>{this.state.error}</Notification>}
+          {this.state.isLoading && <Loader />}
+          {!this.state.isLoading && this.state.lecturer && this.renderForm()}
+          {!this.state.isLoading && !this.state.lecturer && <h3>Lecturer not found.</h3>}
+        </div>
+        {!this.isCreating() && <LecturerAssign lecturerId={this.getLecturerId()} />}
       </div>
     );
   }
