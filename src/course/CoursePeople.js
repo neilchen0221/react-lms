@@ -19,20 +19,22 @@ class CoursePeople extends React.PureComponent {
   }
 
   async componentDidMount() {
+    this.setState({ isLecturersLoading: true, isStudentsLoading: true });
     try {
-      this.setState({ isLecturersLoading: true });
       const courseLecturers = await CourseApi.getCourseLecturer(this.props.courseId);
       this.setState({ isLecturersLoading: false, courseLecturers });
     } catch (e) {
-      this.setState({ lecturersError: "Something went wrong while loading lecturer list..." });
+      this.setState({
+        isLecturersLoading: false,
+        lecturersError: "Something went wrong while loading lecturer list..."
+      });
     }
 
     try {
-      this.setState({ isStudentsLoading: true });
       const courseStudents = await CourseApi.getCourseStudent(this.props.courseId);
       this.setState({ isStudentsLoading: false, courseStudents });
     } catch (e) {
-      this.setState({ studentsError: "Something went wrong while loading student list..." });
+      this.setState({ isStudentsLoading: false, studentsError: "Something went wrong while loading student list..." });
     }
   }
 
