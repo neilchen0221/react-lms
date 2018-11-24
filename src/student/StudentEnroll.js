@@ -5,6 +5,7 @@ import * as StudentApi from "./StudentApi";
 import { Link } from "react-router-dom";
 import * as CourseApi from "../course/CourseApi";
 import ConfirmDialog from "../common/ConfirmDialog";
+import Portal from "../common/Portal";
 
 class StudentEnroll extends React.PureComponent {
   constructor() {
@@ -164,12 +165,14 @@ class StudentEnroll extends React.PureComponent {
                         >
                           Enroll Course
                         </button>
-                        <ConfirmDialog
-                          id={`enrollCourse${course.id}`}
-                          handleConfirm={this.handleEnroll.bind(this, course.id)}
-                          title="Are you sure to continue"
-                          body={`Enroll this student to ${course.title}?`}
-                        />
+                        <Portal>
+                          <ConfirmDialog
+                            id={`enrollCourse${course.id}`}
+                            handleConfirm={this.handleEnroll.bind(this, course.id)}
+                            title="Are you sure to continue"
+                            body={`Enroll this student to ${course.title}?`}
+                          />
+                        </Portal>
                       </React.Fragment>
                     )}
                   </td>
