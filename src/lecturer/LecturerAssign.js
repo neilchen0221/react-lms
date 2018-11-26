@@ -5,6 +5,7 @@ import * as LecturerApi from "./LecturerApi";
 import { Link } from "react-router-dom";
 import * as CourseApi from "../course/CourseApi";
 import ConfirmDialog from "../common/ConfirmDialog";
+import Portal from "../common/Portal";
 
 class LecturerAssign extends React.PureComponent {
   constructor() {
@@ -162,12 +163,14 @@ class LecturerAssign extends React.PureComponent {
                         >
                           Assign Course
                         </button>
-                        <ConfirmDialog
-                          id={`assignCourse${course.id}`}
-                          handleConfirm={this.handleAssign.bind(this, course.id)}
-                          title="Are you sure to continue"
-                          body={`Assign this lecturer to ${course.title}?`}
-                        />
+                        <Portal>
+                          <ConfirmDialog
+                            id={`assignCourse${course.id}`}
+                            handleConfirm={this.handleAssign.bind(this, course.id)}
+                            title="Are you sure to continue"
+                            body={`Assign this lecturer to ${course.title}?`}
+                          />
+                        </Portal>
                       </React.Fragment>
                     )}
                   </td>
