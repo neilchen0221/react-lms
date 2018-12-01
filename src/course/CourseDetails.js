@@ -234,18 +234,20 @@ class CourseDetails extends React.Component {
 
   render() {
     return (
-      <div className="row mt-4 justify-content-around">
-        <div className="col-md-10 col-xl-5 mb-5">
-          <h1>
-            <i className="fas fa-book-open mx-3" />
-            {this.isCreating() ? "New Course" : "Course Detail"}
-          </h1>
-          {this.state.error && <Notification>{this.state.error}</Notification>}
-          {this.state.isLoading && <Loader />}
-          {!this.state.isLoading && this.state.course && this.renderForm()}
-          {!this.state.isLoading && !this.state.course && <h3>Course not found.</h3>}
+      <div className="container-fluid">
+        <div className="row mt-4 justify-content-around">
+          <div className="col-md-10 col-xl-5 mb-5">
+            <h1>
+              <i className="fas fa-book-open mx-3" />
+              {this.isCreating() ? "New Course" : "Course Detail"}
+            </h1>
+            {this.state.error && <Notification>{this.state.error}</Notification>}
+            {this.state.isLoading && <Loader />}
+            {!this.state.isLoading && this.state.course && this.renderForm()}
+            {!this.state.isLoading && !this.state.course && <h3>Course not found.</h3>}
+          </div>
+          {!this.isCreating() && <CoursePeople courseId={this.getCourseId()} />}
         </div>
-        {!this.isCreating() && <CoursePeople courseId={this.getCourseId()} />}
       </div>
     );
   }
