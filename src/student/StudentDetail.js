@@ -268,17 +268,19 @@ class StudentDetails extends React.PureComponent {
 
   render() {
     return (
-      <div className="row mt-4 justify-content-around">
-        <div className="col-md-10 col-xl-5 mb-5">
-          <h1>
-            <i className="fas fa-address-card mx-3" />
-            {this.isCreating() ? "New Student" : "Student Detail"}
-          </h1>
-          {this.state.error && <Notification>{this.state.error}</Notification>}
-          {this.state.isLoading && <Loader />}
-          {!this.state.isLoading && this.state.student && this.renderForm()}
+      <div className="container-fluid">
+        <div className="row mt-4 justify-content-around">
+          <div className="col-md-10 col-xl-5 mb-5">
+            <h1>
+              <i className="fas fa-address-card mx-3" />
+              {this.isCreating() ? "New Student" : "Student Detail"}
+            </h1>
+            {this.state.error && <Notification>{this.state.error}</Notification>}
+            {this.state.isLoading && <Loader />}
+            {!this.state.isLoading && this.state.student && this.renderForm()}
+          </div>
+          {!this.isCreating() && <StudentEnroll studentId={this.getStudentId()} reloadStudent={this.getStudent} />}
         </div>
-        {!this.isCreating() && <StudentEnroll studentId={this.getStudentId()} reloadStudent={this.getStudent} />}
       </div>
     );
   }
