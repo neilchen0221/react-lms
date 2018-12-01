@@ -202,18 +202,20 @@ class LecturerDetails extends React.PureComponent {
 
   render() {
     return (
-      <div className="row mt-4 justify-content-around">
-        <div className="col-md-10 col-xl-5 mb-5">
-          <h1>
-            <i className="fas fa-chalkboard-teacher mx-3" />
-            {this.isCreating() ? "New Lecturer" : "Lecturer Detail"}
-          </h1>
-          {this.state.error && <Notification>{this.state.error}</Notification>}
-          {this.state.isLoading && <Loader />}
-          {!this.state.isLoading && this.state.lecturer && this.renderForm()}
-          {!this.state.isLoading && !this.state.lecturer && <h3>Lecturer not found.</h3>}
+      <div className="container-fluid">
+        <div className="row mt-4 justify-content-around">
+          <div className="col-md-10 col-xl-5 mb-5">
+            <h1>
+              <i className="fas fa-chalkboard-teacher mx-3" />
+              {this.isCreating() ? "New Lecturer" : "Lecturer Detail"}
+            </h1>
+            {this.state.error && <Notification>{this.state.error}</Notification>}
+            {this.state.isLoading && <Loader />}
+            {!this.state.isLoading && this.state.lecturer && this.renderForm()}
+            {!this.state.isLoading && !this.state.lecturer && <h3>Lecturer not found.</h3>}
+          </div>
+          {!this.isCreating() && <LecturerAssign lecturerId={this.getLecturerId()} />}
         </div>
-        {!this.isCreating() && <LecturerAssign lecturerId={this.getLecturerId()} />}
       </div>
     );
   }
