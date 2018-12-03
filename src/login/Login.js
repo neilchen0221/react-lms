@@ -7,6 +7,8 @@ import * as yup from "yup";
 import { pick } from "lodash/object";
 import * as LoginApi from "./LoginApi";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { setAuth } from "../actions/authActions";
 
 const schema = yup.object().shape({
   username: yup
@@ -19,7 +21,7 @@ const schema = yup.object().shape({
     .required()
 });
 
-export default class Login extends React.PureComponent {
+class Login extends React.PureComponent {
   constructor() {
     super();
     this.state = {
@@ -60,8 +62,8 @@ export default class Login extends React.PureComponent {
       // Update bearer token
       axios.defaults.headers.common.Authorization = `Bearer ${response.access_token}`;
       localStorage.setItem("access_token", response.access_token);
+      this.props.setAuth(true);
       redirect("/dashboard");
-      window.location.reload();
     } catch (err) {
       console.log(err);
       this.setState({
@@ -111,3 +113,8 @@ export default class Login extends React.PureComponent {
     );
   }
 }
+
+export default connect(
+  null,
+  { setAuth }
+)(Login);

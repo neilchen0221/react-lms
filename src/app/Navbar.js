@@ -1,27 +1,35 @@
 import React from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, withRouter } from "react-router-dom";
 import axios from "axios";
 import { redirect } from "../common/Helper";
+import { connect } from "react-redux";
+import { getAuth, setAuth } from "../actions/authActions";
 
-export default class Navbar extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      isLoggedin: !!localStorage.getItem("access_token")
-    };
-  }
+class Navbar extends React.Component {
+  // constructor() {
+  //   super();
+  //   this.state = {
+  //     isLoggedin: !!localStorage.getItem("access_token")
+  //   };
+  // }
 
-  componentDidMount() {
-    this.setState({
-      isLoggedin: !!localStorage.getItem("access_token")
-    });
+  // componentDidMount() {
+  //   this.setState({
+  //     isLoggedin: !!localStorage.getItem("access_token")
+  //   });
+  // }
+
+  componentWillMount() {
+    this.props.getAuth();
   }
 
   handleLogout = e => {
     e.preventDefault();
     localStorage.removeItem("access_token");
     axios.defaults.headers.common.Authorization = "";
-    this.setState({ isLoggedin: false });
+    // this.setState({ isLoggedin: false });
+    this.props.setAuth(false);
+    this.props.getAuth();
     redirect("/login");
   };
 
@@ -71,7 +79,7 @@ export default class Navbar extends React.Component {
           </div>
 
           <ul className="navbar-nav ml-auto">
-            {this.state.isLoggedin ? (
+            {this.props.isLoggedin ? (
               <a href="#" className="nav-item nav-link mx-2" onClick={this.handleLogout}>
                 <i className="fas fa-sign-out-alt mr-2" />
                 Logout
@@ -88,3 +96,14 @@ export default class Navbar extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  isLoggedin: state.authState.isLoggedin
+});
+
+export default withRouter(
+  connect(
+    mapStateToProps,
+    { getAuth, setAuth }
+  )(Navbar)
+);
