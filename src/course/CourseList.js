@@ -30,7 +30,7 @@ class CourseList extends React.Component {
         {!this.state.courses.length && <h3>No Course...</h3>}
         {this.state.courses.map(c => {
           return (
-            <div key={c.id} className="col-sm-4" style={{ padding: "1rem" }}>
+            <div key={c.id} className="col-md-4" style={{ padding: "1rem" }}>
               <div className="card lms-shadow">
                 <div className="card-header">
                   <h5>{c.title}</h5>
