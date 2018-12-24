@@ -1,7 +1,12 @@
+body {
+  background-color: #f2f2f2;
+}
+
 .lms-container {
   margin-top: 20px;
   margin-left: 50px;
   max-width: 700px;
+  background-color: #ffffff;
 }
 
 .lms-form__container {
@@ -9,6 +14,7 @@
   padding: 30px;
   margin-top: 20px;
   box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+  background-color: #ffffff;
 }
 
 .lms-list__container {
@@ -16,8 +22,17 @@
   padding: 20px;
   margin: 20px;
   box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+  background-color: #ffffff;
 }
 
 .lms-shadow {
   box-shadow: 0.5rem 0.5rem 2rem rgba(0, 0, 0, 0.2);
+}
+
+.lms-section {
+  background-color: #ffffff;
+  border: 3px solid rgb(247, 247, 249);
+  margin-top: 20px;
+  padding: 30px;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
 }
