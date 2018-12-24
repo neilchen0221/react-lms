@@ -1,46 +1,46 @@
-import React from "react";
-import * as CourseApi from "./CourseApi";
-import Loader from "../common/Loader";
-import * as yup from "yup";
-import { pick } from "lodash/object";
-import { getValidationErrors, redirect } from "../common/Helper";
-import Notification from "../common/Notification";
-import { Link } from "react-router-dom";
-import ConfirmDialog from "../common/ConfirmDialog";
-import TextField from "../common/TextField";
-import TextAreaField from "../common/TextAreaField";
-import Selector from "../common/Selector";
-import CoursePeople from "./CoursePeople";
+import React from 'react';
+import * as CourseApi from './CourseApi';
+import Loader from '../common/Loader';
+import * as yup from 'yup';
+import { pick } from 'lodash/object';
+import { getValidationErrors, redirect } from '../common/Helper';
+import Notification from '../common/Notification';
+import { Link } from 'react-router-dom';
+import ConfirmDialog from '../common/ConfirmDialog';
+import TextField from '../common/TextField';
+import TextAreaField from '../common/TextAreaField';
+import Selector from '../common/Selector';
+import CoursePeople from './CoursePeople';
 
 const schema = yup.object().shape({
   title: yup
     .string()
     .max(50)
-    .label("Title")
+    .label('Title')
     .required(),
   language: yup
     .string()
     .max(50)
-    .label("Language")
+    .label('Language')
     .required(),
   fee: yup
     .number()
     .positive()
     .min(10)
     .max(5000)
-    .label("Fee")
+    .label('Fee')
     .required(),
   maxStudent: yup
     .number()
     .positive()
     .min(10)
     .max(50)
-    .label("Max students")
+    .label('Max students')
     .required(),
   description: yup
     .string()
     .max(250)
-    .label("Description")
+    .label('Description')
 });
 
 class CourseDetails extends React.Component {
@@ -50,12 +50,12 @@ class CourseDetails extends React.Component {
       isLoading: false,
       isUpdated: false,
       course: {
-        title: "",
-        fee: "",
-        description: ""
+        title: '',
+        fee: '',
+        description: ''
       },
       validationErrors: {},
-      error: ""
+      error: ''
     };
   }
 
@@ -72,7 +72,7 @@ class CourseDetails extends React.Component {
       target,
       target: { name }
     } = e;
-    const value = target.type === "checkbox" ? target.checked : target.value;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
 
     this.setState({
       course: {
@@ -85,7 +85,7 @@ class CourseDetails extends React.Component {
   handleSubmit = async e => {
     e.preventDefault();
 
-    const userInput = pick(this.state.course, ["title", "language", "fee", "maxStudent", "description"]);
+    const userInput = pick(this.state.course, ['title', 'language', 'fee', 'maxStudent', 'description']);
     try {
       await schema.validate(userInput, {
         abortEarly: false
@@ -100,9 +100,9 @@ class CourseDetails extends React.Component {
     if (this.isCreating()) {
       try {
         await CourseApi.createCourse(course);
-        redirect("/courses");
+        redirect('/courses');
       } catch (e) {
-        this.setState({ validationErrors: {}, error: "Someting went wrong while creating course..." });
+        this.setState({ validationErrors: {}, error: 'Someting went wrong while creating course...' });
       }
     } else {
       try {
@@ -110,7 +110,7 @@ class CourseDetails extends React.Component {
         await CourseApi.updateCourse(course.id, course);
         this.setState({ validationErrors: {}, isUpdated: true });
       } catch (e) {
-        this.setState({ validationErrors: {}, error: "Someting went wrong while saving course..." });
+        this.setState({ validationErrors: {}, error: 'Someting went wrong while saving course...' });
       }
     }
   };
@@ -118,17 +118,17 @@ class CourseDetails extends React.Component {
   handleConfirmDelete = async () => {
     try {
       await CourseApi.deleteCourse(this.getCourseId());
-      alert("Course deleted!");
-      redirect("/courses");
+      alert('Course deleted!');
+      redirect('/courses');
     } catch (err) {
       this.setState({
-        error: "Error occurred while deleting the course"
+        error: 'Error occurred while deleting the course'
       });
     }
   };
 
   isCreating() {
-    return this.getCourseId() === "create";
+    return this.getCourseId() === 'create';
   }
   getCourseId() {
     return this.props.match.params.id;
@@ -171,7 +171,7 @@ class CourseDetails extends React.Component {
           />
 
           <Selector
-            style={{ width: "120px" }}
+            style={{ width: '120px' }}
             name="language"
             label="Language"
             value={language}
@@ -197,7 +197,7 @@ class CourseDetails extends React.Component {
           />
 
           <Selector
-            style={{ width: "120px" }}
+            style={{ width: '120px' }}
             name="maxStudent"
             label="Max Students"
             value={maxStudent}
@@ -222,7 +222,7 @@ class CourseDetails extends React.Component {
           />
 
           <button className="btn btn-primary" type="submit">
-            {this.isCreating() ? "Create" : "Save"}
+            {this.isCreating() ? 'Create' : 'Save'}
           </button>
           <Link className="btn btn-light ml-3" to="/courses">
             Close
@@ -236,10 +236,10 @@ class CourseDetails extends React.Component {
     return (
       <div className="container-fluid">
         <div className="row mt-4 justify-content-around">
-          <div className="col-md-10 col-xl-5 mb-5">
+          <div className="col-md-10 col-xl-5 my-4">
             <h1>
               <i className="fas fa-book-open mx-3" />
-              {this.isCreating() ? "New Course" : "Course Detail"}
+              {this.isCreating() ? 'New Course' : 'Course Detail'}
             </h1>
             {this.state.error && <Notification>{this.state.error}</Notification>}
             {this.state.isLoading && <Loader />}

@@ -1,11 +1,11 @@
-import React from "react";
-import Notification from "../common/Notification";
-import Loader from "../common/Loader";
-import * as StudentApi from "./StudentApi";
-import { Link } from "react-router-dom";
-import * as CourseApi from "../course/CourseApi";
-import ConfirmDialog from "../common/ConfirmDialog";
-import Portal from "../common/Portal";
+import React from 'react';
+import Notification from '../common/Notification';
+import Loader from '../common/Loader';
+import * as StudentApi from './StudentApi';
+import { Link } from 'react-router-dom';
+import * as CourseApi from '../course/CourseApi';
+import ConfirmDialog from '../common/ConfirmDialog';
+import Portal from '../common/Portal';
 
 class StudentEnroll extends React.PureComponent {
   constructor() {
@@ -14,8 +14,8 @@ class StudentEnroll extends React.PureComponent {
       isEnrolled: false,
       isLoading: false,
       isTableLoading: false,
-      loadingError: "",
-      error: "",
+      loadingError: '',
+      error: '',
       isEnrollMode: false,
       studentCourses: [],
       courses: []
@@ -34,7 +34,7 @@ class StudentEnroll extends React.PureComponent {
     } catch (error) {
       this.setState({
         isLoading: false,
-        loadingError: "Something went wrong while loading..."
+        loadingError: 'Something went wrong while loading...'
       });
     }
   };
@@ -45,7 +45,7 @@ class StudentEnroll extends React.PureComponent {
       const courses = await CourseApi.getCourses();
       this.setState({ isTableLoading: false, courses });
     } catch (e) {
-      this.setState({ isTableLoading: false, error: "Something went wrong while loading courses..." });
+      this.setState({ isTableLoading: false, error: 'Something went wrong while loading courses...' });
     }
   };
 
@@ -56,26 +56,26 @@ class StudentEnroll extends React.PureComponent {
 
   handleEnroll = async courseId => {
     try {
-      this.setState({ isEnrolled: false, error: "" });
+      this.setState({ isEnrolled: false, error: '' });
       await StudentApi.enrollCourse(this.props.studentId, courseId);
       await this.getStudentCourse();
       this.setState({ isEnrolled: true });
       this.props.reloadStudent();
     } catch (e) {
       this.setState({
-        error: e.data.message || "Something went wrong while enrolling... :("
+        error: e.data.message || 'Something went wrong while enrolling... :('
       });
     }
   };
 
   handleCancel = async courseId => {
     try {
-      this.setState({ isEnrolled: false, error: "" });
+      this.setState({ isEnrolled: false, error: '' });
       await StudentApi.cancelCourse(this.props.studentId, courseId);
       await this.getStudentCourse();
       this.props.reloadStudent();
     } catch (e) {
-      this.setState({ error: "Something went wrong while canceling course..." });
+      this.setState({ error: 'Something went wrong while canceling course...' });
     }
   };
 
@@ -113,7 +113,7 @@ class StudentEnroll extends React.PureComponent {
         <div className="col-sm-6 text-center">
           {!studentCourses.length && <h3>No course enrolled, start to enroll course</h3>}
           <button className="btn btn-light btn-lg border px-5 py-4 mt-5 " onClick={this.handleEnrollMode}>
-            {isEnrollMode ? "Close" : <span className="fas fa-plus" />}
+            {isEnrollMode ? 'Close' : <span className="fas fa-plus" />}
           </button>
         </div>
       </div>
@@ -122,7 +122,7 @@ class StudentEnroll extends React.PureComponent {
 
   renderTable() {
     return (
-      <div className="table-responsive mt-4">
+      <div className="table-responsive mt-4 lms-section">
         <table className="table table-striped">
           <thead>
             <tr>

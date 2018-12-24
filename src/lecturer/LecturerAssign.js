@@ -1,11 +1,11 @@
-import React from "react";
-import Notification from "../common/Notification";
-import Loader from "../common/Loader";
-import * as LecturerApi from "./LecturerApi";
-import { Link } from "react-router-dom";
-import * as CourseApi from "../course/CourseApi";
-import ConfirmDialog from "../common/ConfirmDialog";
-import Portal from "../common/Portal";
+import React from 'react';
+import Notification from '../common/Notification';
+import Loader from '../common/Loader';
+import * as LecturerApi from './LecturerApi';
+import { Link } from 'react-router-dom';
+import * as CourseApi from '../course/CourseApi';
+import ConfirmDialog from '../common/ConfirmDialog';
+import Portal from '../common/Portal';
 
 class LecturerAssign extends React.PureComponent {
   constructor() {
@@ -14,8 +14,8 @@ class LecturerAssign extends React.PureComponent {
       isAssigned: false,
       isLoading: false,
       isTableLoading: false,
-      loadingError: "",
-      error: "",
+      loadingError: '',
+      error: '',
       isAssignMode: false,
       lecturerCourses: [],
       courses: []
@@ -34,7 +34,7 @@ class LecturerAssign extends React.PureComponent {
     } catch (error) {
       this.setState({
         isLoading: false,
-        loadingError: "Something went wrong while loading..."
+        loadingError: 'Something went wrong while loading...'
       });
     }
   };
@@ -45,7 +45,7 @@ class LecturerAssign extends React.PureComponent {
       const courses = await CourseApi.getCourses();
       this.setState({ isTableLoading: false, courses });
     } catch (e) {
-      this.setState({ isTableLoading: false, error: "Something went wrong while loading courses..." });
+      this.setState({ isTableLoading: false, error: 'Something went wrong while loading courses...' });
     }
   };
 
@@ -56,24 +56,24 @@ class LecturerAssign extends React.PureComponent {
 
   handleAssign = async courseId => {
     try {
-      this.setState({ isAssigned: false, error: "" });
+      this.setState({ isAssigned: false, error: '' });
       await LecturerApi.assignCourse(this.props.lecturerId, courseId);
       await this.getLecturerCourse();
       this.setState({ isAssigned: true });
     } catch (e) {
       this.setState({
-        error: "Something went wrong while assigning course... :("
+        error: 'Something went wrong while assigning course... :('
       });
     }
   };
 
   handleUnassign = async courseId => {
     try {
-      this.setState({ isAssigned: false, error: "" });
+      this.setState({ isAssigned: false, error: '' });
       await LecturerApi.unassignCourse(this.props.lecturerId, courseId);
       await this.getLecturerCourse();
     } catch (e) {
-      this.setState({ error: "Something went wrong while unassigning course..." });
+      this.setState({ error: 'Something went wrong while unassigning course...' });
     }
   };
 
@@ -111,7 +111,7 @@ class LecturerAssign extends React.PureComponent {
         <div className="col-sm-6 text-center">
           {!lecturerCourses.length && <h3>No course assigned, start to assign course</h3>}
           <button className="btn btn-light btn-lg border px-5 py-4 mt-5 " onClick={this.handleAssignMode}>
-            {isAssignMode ? "Close" : <span className="fas fa-plus" />}
+            {isAssignMode ? 'Close' : <span className="fas fa-plus" />}
           </button>
         </div>
       </div>
@@ -120,7 +120,7 @@ class LecturerAssign extends React.PureComponent {
 
   renderTable() {
     return (
-      <div className="table-responsive mt-4">
+      <div className="table-responsive mt-4 lms-section">
         <table className="table table-striped">
           <thead>
             <tr>

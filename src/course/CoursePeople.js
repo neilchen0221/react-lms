@@ -1,9 +1,9 @@
-import React from "react";
-import Loader from "../common/Loader";
-import { Link } from "react-router-dom";
-import * as CourseApi from "./CourseApi";
-import moment from "moment";
-import Notification from "../common/Notification";
+import React from 'react';
+import Loader from '../common/Loader';
+import { Link } from 'react-router-dom';
+import * as CourseApi from './CourseApi';
+import moment from 'moment';
+import Notification from '../common/Notification';
 
 class CoursePeople extends React.PureComponent {
   constructor() {
@@ -13,8 +13,8 @@ class CoursePeople extends React.PureComponent {
       courseLecturers: [],
       isStudentsLoading: false,
       isLecturersLoading: false,
-      studentsError: "",
-      lecturersError: ""
+      studentsError: '',
+      lecturersError: ''
     };
   }
 
@@ -26,7 +26,7 @@ class CoursePeople extends React.PureComponent {
     } catch (e) {
       this.setState({
         isLecturersLoading: false,
-        lecturersError: "Something went wrong while loading lecturer list..."
+        lecturersError: 'Something went wrong while loading lecturer list...'
       });
     }
 
@@ -34,7 +34,7 @@ class CoursePeople extends React.PureComponent {
       const courseStudents = await CourseApi.getCourseStudent(this.props.courseId);
       this.setState({ isStudentsLoading: false, courseStudents });
     } catch (e) {
-      this.setState({ isStudentsLoading: false, studentsError: "Something went wrong while loading student list..." });
+      this.setState({ isStudentsLoading: false, studentsError: 'Something went wrong while loading student list...' });
     }
   }
 
@@ -119,7 +119,7 @@ class CoursePeople extends React.PureComponent {
                   <td>{student.fullName}</td>
                   <td>{student.email}</td>
                   <td>{student.gender}</td>
-                  <td>{moment(student.dateOfBirth).format("MMM DD YYYY")}</td>
+                  <td>{moment(student.dateOfBirth).format('MMM DD YYYY')}</td>
                   <td>{student.credit}</td>
                   <td className="text-center">
                     <Link to={`/students/${student.id}`}>Details</Link>
@@ -136,15 +136,18 @@ class CoursePeople extends React.PureComponent {
     const { lecturersError, isLecturersLoading, studentsError, isStudentsLoading } = this.state;
     return (
       <div className="col-md-10 col-xl-6 mb-5">
-        <h1>Lecturers</h1>
-        {lecturersError && <Notification>{lecturersError}</Notification>}
-        {isLecturersLoading && <Loader />}
-        {!isLecturersLoading && !lecturersError && this.renderLecturerTable()}
-
-        <h1>Students</h1>
-        {studentsError && <Notification>{studentsError}</Notification>}
-        {isStudentsLoading && <Loader />}
-        {!isStudentsLoading && !studentsError && this.renderStudentTable()}
+        <div className="lms-section">
+          <h1>Lecturers</h1>
+          {lecturersError && <Notification>{lecturersError}</Notification>}
+          {isLecturersLoading && <Loader />}
+          {!isLecturersLoading && !lecturersError && this.renderLecturerTable()}
+        </div>
+        <div className="lms-section">
+          <h1>Students</h1>
+          {studentsError && <Notification>{studentsError}</Notification>}
+          {isStudentsLoading && <Loader />}
+          {!isStudentsLoading && !studentsError && this.renderStudentTable()}
+        </div>
       </div>
     );
   }
