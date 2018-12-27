@@ -122,64 +122,76 @@ class StudentEnroll extends React.PureComponent {
 
   renderTable() {
     return (
-      <div className="table-responsive mt-4 lms-section">
-        <table className="table table-striped">
-          <thead>
-            <tr>
-              <th className="font-weight-bold">Title</th>
-              <th className="font-weight-bold">Description</th>
-              <th />
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.isTableLoading && (
+      <div className="lms-section">
+        <h3 className="mb-4 text-center">Choose a course to enroll</h3>
+        <div className="table-responsive mt-4">
+          <table className="table table-striped text-nowrap">
+            <thead>
               <tr>
-                <td colSpan="3">
-                  <Loader />
-                </td>
+                <th className="font-weight-bold sticky-col" style={{ backgroundColor: 'white' }}>
+                  Title
+                </th>
+                <th className="font-weight-bold">Description</th>
+                <th />
               </tr>
-            )}
-            {!this.state.isTableLoading && !this.state.courses.length && (
-              <tr>
-                <td colSpan="3">
-                  <h3 className="text-center">No Courses...</h3>
-                </td>
-              </tr>
-            )}
-            {!this.state.isTableLoading &&
-              this.state.courses.map(course => (
-                <tr key={course.id}>
-                  <td>{course.title}</td>
-                  <td>{course.description}</td>
-                  <td className="text-center">
-                    {this.state.studentCourses.filter(x => x.id === course.id).length ? (
-                      <button className="btn btn-secondary" disabled>
-                        Enrolled
-                      </button>
-                    ) : (
-                      <React.Fragment>
-                        <button
-                          className="btn btn-primary"
-                          data-toggle="modal"
-                          data-target={`#enrollCourse${course.id}`}
-                        >
-                          Enroll Course
-                        </button>
-                        <Portal>
-                          <ConfirmDialog
-                            id={`enrollCourse${course.id}`}
-                            handleConfirm={this.handleEnroll.bind(this, course.id)}
-                            title="Are you sure to continue"
-                            body={`Enroll this student to ${course.title}?`}
-                          />
-                        </Portal>
-                      </React.Fragment>
-                    )}
+            </thead>
+            <tbody>
+              {this.state.isTableLoading && (
+                <tr>
+                  <td colSpan="3">
+                    <Loader />
                   </td>
                 </tr>
-              ))}
-          </tbody>
-        </table>
+              )}
+              {!this.state.isTableLoading && !this.state.courses.length && (
+                <tr>
+                  <td colSpan="3">
+                    <h3 className="text-center">No Courses...</h3>
+                  </td>
+                </tr>
+              )}
+              {!this.state.isTableLoading &&
+                this.state.courses.map((course, index) => (
+                  <tr key={course.id}>
+                    <td
+                      className="sticky-col"
+                      style={{
+                        backgroundColor: index % 2 === 0 ? '#F2F2F2' : 'white'
+                      }}
+                    >
+                      {course.title}
+                    </td>
+                    <td style={{ whiteSpace: 'normal', minWidth: '250px' }}>{course.description}</td>
+                    <td className="text-center">
+                      {this.state.studentCourses.filter(x => x.id === course.id).length ? (
+                        <button className="btn btn-secondary" disabled>
+                          Enrolled
+                        </button>
+                      ) : (
+                        <React.Fragment>
+                          <button
+                            className="btn btn-primary"
+                            data-toggle="modal"
+                            data-target={`#enrollCourse${course.id}`}
+                          >
+                            Enroll Course
+                          </button>
+                          <Portal>
+                            <ConfirmDialog
+                              id={`enrollCourse${course.id}`}
+                              handleConfirm={this.handleEnroll.bind(this, course.id)}
+                              title="Are you sure to continue"
+                              body={`Enroll this student to ${course.title}?`}
+                            />
+                          </Portal>
+                        </React.Fragment>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     );
   }

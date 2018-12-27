@@ -41,10 +41,12 @@ class CoursePeople extends React.PureComponent {
   renderLecturerTable = () => {
     return (
       <div className="table-responsive my-4">
-        <table className="table table-striped">
+        <table className="table table-striped text-nowrap">
           <thead>
             <tr>
-              <th className="font-weight-bold">Name</th>
+              <th className="font-weight-bold sticky-col" style={{ backgroundColor: 'white' }}>
+                Name
+              </th>
               <th className="font-weight-bold">Email</th>
               <th className="font-weight-bold">Staff number</th>
               <th />
@@ -67,9 +69,17 @@ class CoursePeople extends React.PureComponent {
               </tr>
             )}
             {!this.state.isLecturersLoading &&
-              this.state.courseLecturers.map(lecturer => (
+              this.state.courseLecturers.map((lecturer, index) => (
                 <tr key={lecturer.id}>
-                  <td>{lecturer.name}</td>
+                  <td
+                    className="sticky-col"
+                    style={{
+                      backgroundColor: index % 2 === 0 ? '#F2F2F2' : 'white',
+                      whiteSpace: 'normal'
+                    }}
+                  >
+                    {lecturer.name}
+                  </td>
                   <td>{lecturer.email}</td>
                   <td>{lecturer.staffNumber}</td>
                   <td className="text-center">
@@ -86,10 +96,12 @@ class CoursePeople extends React.PureComponent {
   renderStudentTable = () => {
     return (
       <div className="table-responsive mt-4">
-        <table className="table table-striped">
+        <table className="table table-striped text-nowrap">
           <thead>
             <tr>
-              <th className="font-weight-bold">Name</th>
+              <th className="font-weight-bold sticky-col" style={{ backgroundColor: 'white' }}>
+                Name
+              </th>
               <th className="font-weight-bold">Email</th>
               <th className="font-weight-bold">Gender</th>
               <th className="font-weight-bold">Date of Birth</th>
@@ -114,9 +126,17 @@ class CoursePeople extends React.PureComponent {
               </tr>
             )}
             {!this.state.isStudentsLoading &&
-              this.state.courseStudents.map(student => (
+              this.state.courseStudents.map((student, index) => (
                 <tr key={student.id}>
-                  <td>{student.fullName}</td>
+                  <td
+                    className="sticky-col"
+                    style={{
+                      backgroundColor: index % 2 === 0 ? '#F2F2F2' : 'white',
+                      whiteSpace: 'normal'
+                    }}
+                  >
+                    {student.fullName}
+                  </td>
                   <td>{student.email}</td>
                   <td>{student.gender}</td>
                   <td>{moment(student.dateOfBirth).format('MMM DD YYYY')}</td>

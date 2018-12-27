@@ -1,15 +1,15 @@
-import React from "react";
-import Loader from "../common/Loader";
-import { Link } from "react-router-dom";
-import Notification from "../common/Notification";
-import * as LecturerApi from "./LecturerApi";
+import React from 'react';
+import Loader from '../common/Loader';
+import { Link } from 'react-router-dom';
+import Notification from '../common/Notification';
+import * as LecturerApi from './LecturerApi';
 
 class LecturerList extends React.PureComponent {
   constructor() {
     super();
     this.state = {
       isLoading: false,
-      error: "",
+      error: '',
       lecturers: []
     };
   }
@@ -20,7 +20,7 @@ class LecturerList extends React.PureComponent {
       const lecturers = await LecturerApi.getLecturers();
       this.setState({ lecturers: lecturers || [], isLoading: false });
     } catch (e) {
-      this.setState({ isLoading: false, error: "Something went wrong while loading lecturers..." });
+      this.setState({ isLoading: false, error: 'Something went wrong while loading lecturers...' });
     }
   }
 
@@ -28,9 +28,18 @@ class LecturerList extends React.PureComponent {
     return (
       <thead>
         <tr>
-          <th style={{ width: 300, fontWeight: "bold" }}>Name</th>
-          <th style={{ fontWeight: "bold" }}>Email</th>
-          <th style={{ width: 200, fontWeight: "bold" }}>Staff number</th>
+          <th
+            className="sticky-col"
+            style={{
+              width: 300,
+              fontWeight: 'bold',
+              backgroundColor: 'white'
+            }}
+          >
+            Name
+          </th>
+          <th style={{ fontWeight: 'bold' }}>Email</th>
+          <th style={{ width: 200, fontWeight: 'bold' }}>Staff number</th>
           <th style={{ width: 150 }} />
         </tr>
       </thead>
@@ -55,12 +64,20 @@ class LecturerList extends React.PureComponent {
           </tr>
         )}
         {!this.state.isLoading &&
-          this.state.lecturers.map(lecturer => (
+          this.state.lecturers.map((lecturer, index) => (
             <tr key={lecturer.id}>
-              <td>{lecturer.name}</td>
+              <td
+                className="sticky-col"
+                style={{
+                  backgroundColor: index % 2 === 0 ? '#F2F2F2' : 'white',
+                  whiteSpace: 'normal'
+                }}
+              >
+                {lecturer.name}
+              </td>
               <td>{lecturer.email}</td>
               <td>{lecturer.staffNumber}</td>
-              <td style={{ textAlign: "right" }}>
+              <td style={{ textAlign: 'right' }}>
                 <Link to={`/lecturers/${lecturer.id}`}>Details</Link>
               </td>
             </tr>
@@ -84,7 +101,7 @@ class LecturerList extends React.PureComponent {
         {this.state.isLoading && <Loader />}
         {!this.state.isLoading && !this.state.error && (
           <div className="table-responsive mt-2">
-            <table className="table table-striped">
+            <table className="table table-striped text-nowrap">
               {this.renderHead()}
               {this.renderBody()}
             </table>

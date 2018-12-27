@@ -1,12 +1,12 @@
-import React from "react";
-import * as StudentApi from "./StudentApi";
-import Loader from "../common/Loader";
-import moment from "moment";
-import { Link } from "react-router-dom";
-import { range } from "lodash";
-import Notification from "../common/Notification";
-import SortControl from "../common/SortControl";
-import classnames from "classnames";
+import React from 'react';
+import * as StudentApi from './StudentApi';
+import Loader from '../common/Loader';
+import moment from 'moment';
+import { Link } from 'react-router-dom';
+import { range } from 'lodash';
+import Notification from '../common/Notification';
+import SortControl from '../common/SortControl';
+import classnames from 'classnames';
 
 class StudentList extends React.PureComponent {
   constructor() {
@@ -16,8 +16,8 @@ class StudentList extends React.PureComponent {
       isPageLoading: false,
       isLoading: true,
       searchAttr: {
-        searchValue: "",
-        sortString: "",
+        searchValue: '',
+        sortString: '',
         sortOrder: true
       },
       students: []
@@ -48,11 +48,11 @@ class StudentList extends React.PureComponent {
         totalPage: data.totalPage,
         isLoadingPage: false,
         isLoading: false,
-        error: ""
+        error: ''
       });
     } catch (e) {
       this.setState({
-        error: "Something went wrong...",
+        error: 'Something went wrong...',
         isLoading: false,
         isLoadingPage: false
       });
@@ -76,9 +76,9 @@ class StudentList extends React.PureComponent {
     return (
       <thead>
         <tr>
-          <th>
+          <th className="sticky-col" style={{ backgroundColor: 'white' }}>
             <SortControl
-              isSelected={sortString === "firstName"}
+              isSelected={sortString === 'firstName'}
               isAsc={sortOrder}
               onClick={this.handleSort}
               name="firstName"
@@ -87,14 +87,14 @@ class StudentList extends React.PureComponent {
             </SortControl>
           </th>
           <th style={{ width: 450 }}>
-            <SortControl isSelected={sortString === "email"} isAsc={sortOrder} onClick={this.handleSort} name="email">
+            <SortControl isSelected={sortString === 'email'} isAsc={sortOrder} onClick={this.handleSort} name="email">
               Email
             </SortControl>
           </th>
-          <th style={{ width: 70, fontWeight: "bold" }}>Gender</th>
+          <th style={{ width: 70, fontWeight: 'bold' }}>Gender</th>
           <th style={{ width: 150 }}>
             <SortControl
-              isSelected={sortString === "dateOfBirth"}
+              isSelected={sortString === 'dateOfBirth'}
               isAsc={sortOrder}
               onClick={this.handleSort}
               name="dateOfBirth"
@@ -102,8 +102,8 @@ class StudentList extends React.PureComponent {
               Date of Birth
             </SortControl>
           </th>
-          <th style={{ width: 70, fontWeight: "bold" }}>Credit</th>
-          <th style={{ width: 120, fontWeight: "bold" }} />
+          <th style={{ width: 70, fontWeight: 'bold' }}>Credit</th>
+          <th style={{ width: 120, fontWeight: 'bold' }} />
         </tr>
       </thead>
     );
@@ -127,14 +127,22 @@ class StudentList extends React.PureComponent {
           </tr>
         )}
         {!this.state.isLoadingPage &&
-          this.state.students.map(student => (
+          this.state.students.map((student, index) => (
             <tr key={student.id}>
-              <td>{student.fullName}</td>
+              <td
+                className="sticky-col"
+                style={{
+                  backgroundColor: index % 2 === 0 ? '#F2F2F2' : 'white',
+                  whiteSpace: 'normal'
+                }}
+              >
+                {student.fullName}
+              </td>
               <td>{student.email}</td>
               <td>{student.gender}</td>
-              <td>{moment(student.dateOfBirth).format("MMM DD YYYY")}</td>
+              <td>{moment(student.dateOfBirth).format('MMM DD YYYY')}</td>
               <td>{student.credit}</td>
-              <td style={{ textAlign: "right" }}>
+              <td style={{ textAlign: 'right' }}>
                 <Link to={`/students/${student.id}`}>Details</Link>
               </td>
             </tr>
@@ -165,14 +173,14 @@ class StudentList extends React.PureComponent {
       <div>
         <ul className="pagination justify-content-center">
           {
-            <li className={classnames("page-item", { disabled: !hasPrev })}>
+            <li className={classnames('page-item', { disabled: !hasPrev })}>
               <a className="page-link" onClick={this.getStudentsByPage.bind(this, currentPage - 1)}>
                 Previous
               </a>
             </li>
           }
           {pageNumber.map(pageNumber => (
-            <li key={pageNumber} className={classnames("page-item", { active: currentPage === pageNumber })}>
+            <li key={pageNumber} className={classnames('page-item', { active: currentPage === pageNumber })}>
               <a
                 className="page-link"
                 onClick={currentPage === pageNumber ? undefined : this.getStudentsByPage.bind(this, pageNumber)}
@@ -182,7 +190,7 @@ class StudentList extends React.PureComponent {
             </li>
           ))}
           {
-            <li className={classnames("page-item", { disabled: !hasNext })}>
+            <li className={classnames('page-item', { disabled: !hasNext })}>
               <a className="page-link" onClick={this.getStudentsByPage.bind(this, currentPage + 1)}>
                 Next
               </a>
@@ -225,14 +233,16 @@ class StudentList extends React.PureComponent {
 
         {this.state.isLoading && <Loader />}
         {!this.state.isLoading && !this.state.error && (
-          <div className="table-responsive mt-2">
-            <table className="table table-striped">
-              {this.renderHead()}
-              {this.renderBody()}
-            </table>
+          <React.Fragment>
+            <div className="table-responsive mt-2">
+              <table className="table table-striped text-nowrap">
+                {this.renderHead()}
+                {this.renderBody()}
+              </table>
+            </div>
             <br />
             {this.renderPages()}
-          </div>
+          </React.Fragment>
         )}
       </div>
     );
